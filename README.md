@@ -6,8 +6,8 @@ This is the template repository for the participants to use for Reactive Bounty 
 
 Two types of bounties are available:
 
-- Reactive Smart Contract
-- Reactive dApp
+- Reactive Smart Contract - 400-600 USDT worth of PRQ bounties
+- Reactive dApp - 1200 USDT worth of PRQ bounty
 
 ### Reactive Smart Contract Application
 
@@ -43,7 +43,7 @@ A successful Reactive dApp bounty application MUST:
 
 The best application in each Reactive Smart Contract bounty will be awarded with the specified reward. Each number is USDT worth of PRQ tokens.
 
-The best application in Reactive dApp will be awarded with the 1200 USDT worth of PRQ tokens. One can win this bounty without winning the Reactive Smart Contract bounty, as well as win both.
+The best application in Reactive dApp bounty will be awarded with the 1200 USDT worth of PRQ tokens. One can win this bounty without winning the Reactive Smart Contract bounty, as well as win both.
 
 The best submission will be determined by the jury of the PARSIQ team members subjectively. We will explain the decision in the winner announcement.
 
