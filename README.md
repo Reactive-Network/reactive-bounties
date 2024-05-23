@@ -73,7 +73,7 @@ The bounties are deliberately described briefly and generally to encourage the p
   - Implement a prediction market with automated payouts using RSCs.
 
 - **Automated Funds Distribution - 400**
-  - Implement a multi-party smart contract wallet that distributes incoming funds among shareholders proportionally to their shares whenever funds arrive, without charging the entity sending the funds for gas fees (memecoins?).
+  - Implement a multi-party smart contract wallet that distributes incoming funds among shareholders proportionally to their shares whenever funds arrive, without charging the entity sending the funds for gas fees. Applying this for a memecoin distribution is a plus.
 
 ## Development & Deployment Instructions
 
