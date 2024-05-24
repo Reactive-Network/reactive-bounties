@@ -21,8 +21,8 @@ A successful Reactive Smart Contract bounty application MUST:
 - It MUST contain the address of the Reactive Smart Contract deployed by the participant.
 - It MUST contain the addresses of the Origin and Destination Sepolia smart contracts.
 - It MUST contain the workflow description for each step, both on Sepolia and Reactive.
-- The participant MUST have run this workflow on Sepolia Testnet and Reactive Testnet. The application MUST include the transaction hashes for every step of the workflow.
-- If the application implements “cross-chain” functionality, it MUST be emulated by working with two separate (Origin and Destination) smart contracts on Sepolia testnet that only communicate through the RSC.
+- The participant MUST run this workflow on Sepolia and Reactive Testnets. The application MUST include the transaction hashes for every step of the workflow.
+- If the application implements “cross-chain” functionality, it MUST be emulated by working with two separate (Origin and Destination) smart contracts on Sepolia testnet that only communicate through the Reactive Smart Contract.
 
 The following will increase the score of the application:
 
@@ -34,20 +34,24 @@ The following will increase the score of the application:
 
 A successful Reactive dApp bounty application MUST:
 
-- Implement the frontend (web interface), smart contracts, and reactive smart contracts for any of the use cases below.
-- Fulfill all the requirements for the Reactive Smart Contract application described above. If you’re only specialized in frontend, consider teaming up with a smart contract developer.
+- Implement the front end (web interface), smart contracts, and reactive smart contracts for any of the use cases below.
+- Fulfill all the requirements for the Reactive Smart Contract application described above. If you’re only specialized in the front end, consider teaming up with a smart contract developer.
 - The repository MUST contain the code for the front end of the dApp, as well as the deploy scripts and instructions.
 - The cover letter should include a video of the participant running the intended workflow in their dApp.
 
 ## Judging Criteria
 
-The best application in each Reactive Smart Contract bounty will be awarded with the specified reward. Each number is USDT worth of PRQ tokens.
+- The best application in each Reactive Smart Contract bounty will be awarded a specified amount of PRQ tokens equivalent to 400 or 600 USDT, depending on the bounty type you pick. One participant / team (authentified by an email and an Ethereum address) is only eligible for 2 Reactive Smart Contract bounties.
+- The best application in the Reactive dApp category will be awarded the amount of PRQ tokens equivalent to 1200 USDT. Participants can win the Reactive dApp bounty without winning the Reactive Smart Contract bounty, and it is possible to win both.
+- A jury of PARSIQ team members will subjectively determine the best submission. The decision will be explained in the winner announcement.
+- The bounties are intentionally described in a brief and general manner, aiming to encourage participants to develop their own original features and solutions.
 
-The best application in Reactive dApp bounty will be awarded with the 1200 USDT worth of PRQ tokens. One can win this bounty without winning the Reactive Smart Contract bounty, as well as win both.
+## Where to Start and Get Support
 
-The best submission will be determined by the jury of the PARSIQ team members subjectively. We will explain the decision in the winner announcement.
-
-The bounties are deliberately described briefly and generally to encourage the participants to come up with their own features and solutions.
+- Start by cloning [this repository](https://github.com/Reactive-Network/reactive-bounties) and running the code.
+- See the information on Reactive Testnet and Faucet [here](https://github.com/Reactive-Network/reactive-bounties).
+- Take a look at the [Documentation](https://dev.reactive.network/docs/getting-started) and the [Educational Course](https://dev.reactive.network/education/introduction).
+- For any additional technical or organizational information, please join our [Telegram Developer Community](https://t.me/reactivedevs/9).
 
 ## Reactive Smart Contract Bounties
 
