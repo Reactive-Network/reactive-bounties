@@ -42,7 +42,7 @@ A successful Reactive dApp bounty application MUST:
 ## Judging Criteria
 
 - The best application in each Reactive Smart Contract bounty will be awarded a specified amount of PRQ tokens equivalent to 400 or 600 USDT, depending on the bounty type you pick. One participant / team (authentified by an email and an Ethereum address) is only eligible for 2 Reactive Smart Contract bounties.
-- The best application in the Reactive dApp category will be awarded the amount of PRQ tokens equivalent to 1200 USDT. Participants can win the Reactive dApp bounty without winning the Reactive Smart Contract bounty, and it is possible to win both.
+- The best application in the Reactive dApp category will be awarded the amount of PRQ tokens equivalent to 1200 USDT. Participants can win the Reactive dApp bounty without winning the Reactive Smart Contract bounty, and it is possible to win the dApp bounty and up to 2 RSC bounties for one participant / team.
 - A jury of PARSIQ team members will subjectively determine the best submission. The decision will be explained in the winner announcement.
 - The bounties are intentionally described in a brief and general manner, aiming to encourage participants to develop their own original features and solutions.
 
