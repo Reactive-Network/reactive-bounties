@@ -49,7 +49,7 @@ A successful Reactive dApp bounty application MUST:
 ## Where to Start and Get Support
 
 - Start by cloning [this repository](https://github.com/Reactive-Network/reactive-bounties) and running the code.
-- See the information on Reactive Testnet and Faucet [here](https://github.com/Reactive-Network/reactive-bounties).
+- See the information on Reactive Testnet and Faucet [here](https://dev.reactive.network/docs/kopli-testnet).
 - Take a look at the [Documentation](https://dev.reactive.network/docs/getting-started) and the [Educational Course](https://dev.reactive.network/education/introduction).
 - For any additional technical or organizational information, please join our [Telegram Developer Community](https://t.me/reactivedevs/9).
 
