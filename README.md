@@ -26,7 +26,7 @@ A successful Reactive Smart Contract bounty application MUST:
 
 The following will increase the score of the application:
 
-- A detailed explanation of the problem RSCs solve in that use case and why it is more difficult or even impossible to achieve without them.
+- A detailed explanation of the problem Reactive Smart Contracts solve in that use case and why it is more difficult or even impossible to achieve without them.
 - Clear and concise documentation (what it does exactly and how to run it).
 - Additional meaningful functionality (by the jury’s opinion). A workflow description with transaction hashes for the additional functionality is required.
 
@@ -62,10 +62,13 @@ A successful Reactive dApp bounty application MUST:
   - Implement contracts that automatically buy and burn a portion of the token supply when certain on-chain metrics are met, such as protocol revenue reaching a predefined threshold (come up with a metric that would make sense).
 
 - **Cross-Chain Governance - 400**
-  - Implement cross-chain governance contracts to automate governance processes. The RSC will automatically trigger voting events, fund allocations, and other decision-making on the Destination Governance contract based on actions taken on the Origin Governance contract.
+  - Implement cross-chain governance contracts to automate governance processes. The Reactive Smart Contract will automatically trigger voting events, fund allocations, and other decision-making on the Destination Governance contract based on actions taken on the Origin Governance contract.
 
 - **Automated Governance - 400**
   - Implement automated governance mechanisms where voting results are executed automatically upon meeting a threshold of collected votes or when a time limit expires.
+
+- **Automated One-Step Swap - 600**
+On DEXes, a user needs to approve funds with one transaction and then execute the swap with another. Use Reactive Smart Contracts to reduce this process to one step for the user.
 
 - **Automated Insurance Payouts - 600**
   - Implement automated insurance payouts whenever an insurance event occurs on the relevant oracle.
@@ -74,7 +77,7 @@ A successful Reactive dApp bounty application MUST:
   - Implement automatic payouts based on data from IoT sensors, such as triggering payouts when the temperature falls below a certain threshold.
 
 - **Automated Prediction Market - 600**
-  - Implement a prediction market with automated payouts using RSCs.
+  - Implement a prediction market with automated payouts using Reactive Smart Contracts.
 
 - **Automated Funds Distribution - 400**
   - Implement a multi-party smart contract wallet that distributes incoming funds among shareholders proportionally to their shares whenever funds arrive, without charging the entity sending the funds for gas fees. Applying this for a memecoin distribution is a plus.
