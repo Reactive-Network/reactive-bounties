@@ -67,7 +67,7 @@ A successful Reactive dApp bounty application MUST:
 - **Automated Governance - 400**
   - Implement automated governance mechanisms where voting results are executed automatically upon meeting a threshold of collected votes or when a time limit expires.
 
-- **Automated One-Step Swap - 600**
+- **Automated One-Step Swap - 400**
   - On DEXes, users typically need to approve funds with one transaction and then execute the swap with another. Use Reactive Smart Contracts to reduce this process to a single step for the user.
 
 - **Automated Insurance Payouts - 600**
