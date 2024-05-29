@@ -13,7 +13,7 @@ Two types of bounties are available:
 
 A successful Reactive Smart Contract bounty application MUST:
 
-- Consist of an open GitHub repository and a cover letter. The cover letter must contain contact information and specify the bounty that the participant is applying for.
+- Consist of a pull request to this GitHub repository and a cover letter. The cover letter MUST contain contact information and specify the bounty that the participant is applying for.
 - The code MUST implement one of the use cases below with all the functionality that is mentioned in the bounty description.
 - The GitHub repository MUST be a copy of the template repository.
 - It MUST contain the Reactive Smart Contract, the deploy script, and the instructions for it.
@@ -48,7 +48,7 @@ A successful Reactive dApp bounty application MUST:
 
 ## Where to Start and Get Support
 
-- Start by cloning [this repository](https://github.com/Reactive-Network/reactive-bounties) and running the code.
+- Start by forking [this repository](https://github.com/Reactive-Network/reactive-bounties) and running the code.
 - See the information on Reactive Testnet and Faucet [here](https://dev.reactive.network/docs/kopli-testnet).
 - Take a look at the [Documentation](https://dev.reactive.network/docs/getting-started) and the [Educational Course](https://dev.reactive.network/education/introduction).
 - For any additional technical or organizational information, please join our [Telegram Developer Community](https://t.me/reactivedevs/9).
