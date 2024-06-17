@@ -55,31 +55,31 @@ A successful Reactive dApp bounty application MUST:
 
 ## Reactive Smart Contract Bounties
 
-- **Cross Chain Oracle - 400**
+- **Cross Chain Oracle — 400**
   - Implement a cross-chain oracle system that trustlessly brings data from an oracle on one chain to an oracle on another.
 
-- **Automated Token Buyback and Burn - 400**
+- **Automated Token Buyback and Burn — 400**
   - Implement contracts that automatically buy and burn a portion of the token supply when certain on-chain metrics are met, such as protocol revenue reaching a predefined threshold (come up with a metric that would make sense).
 
-- **Cross-Chain Governance - 400**
+- **Cross-Chain Governance — 400**
   - Implement cross-chain governance contracts to automate governance processes. The Reactive Smart Contract will automatically trigger voting events, fund allocations, and other decision-making on the Destination Governance contract based on actions taken on the Origin Governance contract.
 
-- **Automated Governance - 400**
+- **Automated Governance — 400**
   - Implement automated governance mechanisms where voting results are executed automatically upon meeting a threshold of collected votes or when a time limit expires.
 
-- **Automated One-Step Swap - 400**
+- **Automated One-Step Swap — 400**
   - On DEXes, users typically need to approve funds with one transaction and then execute the swap with another. Use Reactive Smart Contracts to reduce this process to a single step for the user.
 
-- **Automated Insurance Payouts - 600**
+- **Automated Insurance Payouts — 600**
   - Implement automated insurance payouts whenever an insurance event occurs on the relevant oracle.
 
-- **IoT Payouts - 600**
+- **IoT Payouts — 600**
   - Implement automatic payouts based on data from IoT sensors, such as triggering payouts when the temperature falls below a certain threshold.
 
-- **Automated Prediction Market - 600**
+- **Automated Prediction Market — 600**
   - Implement a prediction market with automated payouts using Reactive Smart Contracts.
 
-- **Automated Funds Distribution - 400**
+- **Automated Funds Distribution — 400**
   - Implement a multi-party smart contract wallet that distributes incoming funds among shareholders proportionally to their shares whenever funds arrive, without charging the entity sending the funds for gas fees. Applying this for a memecoin distribution is a plus.
 
 ## Development & Deployment Instructions
