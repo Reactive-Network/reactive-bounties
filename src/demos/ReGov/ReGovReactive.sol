@@ -2,8 +2,8 @@
 
 pragma solidity >=0.8.0;
 
-import '../../Reactive/IReactive.sol';
-import '../../Reactive/ISubscriptionService.sol';
+import '../../IReactive.sol';
+import '../../ISubscriptionService.sol';
 
 
 contract ReGovReactive is IReactive {

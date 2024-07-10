@@ -2,10 +2,10 @@
 pragma solidity ^0.8.0;
 
 import "forge-std/Test.sol";
-import "../src/ReGovL1.sol";
-import "../src/GovernanceToken.sol";
-import "../src/ReGovReactive.sol";
-import '../src/Reactive/IReactive.sol';
+import "../ReGovL1.sol";
+import "../GovernanceToken.sol";
+import "../ReGovReactive.sol";
+import '../../../IReactive.sol';
 
 
 
@@ -105,7 +105,7 @@ contract ReGovL1Test is Test {
             50 ether,
             "Proposal 1"
         );
-        
+
         assertEq(payloadExpected, payload);
         vm.stopPrank();
 
@@ -118,14 +118,14 @@ contract ReGovL1Test is Test {
         vm.stopPrank();
 
         vm.startPrank(callback_sender);
-        
+
         // Simulate react call
         bytes memory payload = mockReactiveVm.ensureReactEmission(
             1, // chain_id
             address(regov), // _contract
             REQUEST_VOTE_TOPIC_0, // topic_0
             uint256(uint160(voter1)), // topic_1
-            1, // topic_2 
+            1, // topic_2
             1, // topic_3 (support)
             "", // data
             0, // block_number
@@ -138,7 +138,7 @@ contract ReGovL1Test is Test {
             1,
             1
         );
-        
+
         assertEq(payloadExpected, payload);
         vm.stopPrank();
     }
@@ -162,7 +162,7 @@ contract ReGovL1Test is Test {
             address(0),
             1
         );
-        
+
         assertEq(payloadExpected, payload);
         vm.stopPrank();
     }
@@ -193,7 +193,7 @@ contract ReGovL1Test is Test {
             address(uint160(funder)),
             100
         );
-        
+
         assertEq(payloadExpected, payload);
         vm.stopPrank();
     }
