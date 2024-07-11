@@ -19,10 +19,10 @@ contract ReGovReactive is IReactive {
     uint256 private constant SEPOLIA_CHAIN_ID = 11155111;
 
 
-    uint256 private constant REQUEST_PROPOSAL_CREATE_TOPIC_0 = 0x3199a34f29254e2f3052f39a547b89816d2e8c9f8b08c5c8ce5c60b5b6c43ca6;
-    uint256 private constant REQUEST_PROPOSAL_EXECUTE_TOPIC_0 = 0x9650e8f3bcebc1b27a4b3010f07e121f3e3e3e05ea1c000e5c31d0325cc7e01e;
-    uint256 private constant REQUEST_VOTE_TOPIC_0 = 0x34fb1cc9ebd331c305f8b04f4d8d05ab58f15346234d3c8e6c678d125b292cd3;
-    uint256 private constant REQUEST_FUND_CONTRACT_TOPIC_0 = 0x5ba8e4f49ceeeda68c20e69e05da60c77e21f0b04b98be9422b47aa5481b8e02;
+    uint256 private constant REQUEST_PROPOSAL_CREATE_TOPIC_0 = 0xb605297f31a6d20fd1daf224402b81de1a5b7128be27c5f891e29757ac8e24fb;
+    uint256 private constant REQUEST_PROPOSAL_EXECUTE_TOPIC_0 = 0xcfc536199fed6fc9a1800da06eff07bc51565c5b442f83cd2d96344089bb07e4;
+    uint256 private constant REQUEST_VOTE_TOPIC_0 = 0x8131eb889128114273bfedf30bfe5aad1a8f3bbef5d40f786c44000e3361ed0a;
+    uint256 private constant REQUEST_FUND_CONTRACT_TOPIC_0 = 0xcffd2dfa796a5228c2b23ade7c7ad9dc8c4235795e0c7aa43c3a43e7e945fbc4;
 
     uint64 private constant CALLBACK_GAS_LIMIT = 1000000;
 
