@@ -8,25 +8,25 @@ contract ReGovEvents is Ownable {
     constructor() Ownable(msg.sender) {
     }
 
-    event RequestProposalCreate(address proposer, uint256 grantAmount,  string description);
-    event RequestVote(address voter, uint256 proposalId, bool support);
-    event RequestProposalExecute(uint256 id);
-    event RequestFundContract(address funder, uint256 grantAmount);
+    event ProposalCreateRequested(address proposer, uint256 grantAmount,  string description);
+    event VoteRequested(address voter, uint256 proposalId, bool support);
+    event ProposalExecuteRequested(uint256 id);
+    event FundContractRequested(address funder, uint256 grantAmount);
 
     function requestVote(uint256 proposalId, bool support) external onlyOwner {
-        emit RequestVote(msg.sender, proposalId, support);
+        emit VoteRequested(msg.sender, proposalId, support);
     }
 
     function requestProposalCreate(string memory description, uint256 grantAmount) external onlyOwner {
-        emit RequestProposalCreate( msg.sender, grantAmount, description);
+        emit ProposalCreateRequested( msg.sender, grantAmount, description);
     }
 
     function requestProposalExecute(uint256 proposalId) external onlyOwner {
-        emit RequestProposalExecute(proposalId);
+        emit ProposalExecuteRequested(proposalId);
     }
 
     function requestFundContract(uint256 grantAmount) external onlyOwner {
-        emit RequestFundContract(msg.sender, grantAmount);
+        emit FundContractRequested(msg.sender, grantAmount);
     }
 
 }

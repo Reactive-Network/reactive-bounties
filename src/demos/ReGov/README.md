@@ -80,7 +80,7 @@ export GOVERNANCE_TOKEN_ADDRESS="<YOUR_GOVERNANCE_TOKEN_ADDRESS>"
 First, deploy the governance token contract to Sepolia:
 
 ```
-forge create --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY src/demos/ReGov/GovernanceToken.sol:GovernanceToken --constructor-args 1000000000000000000
+forge create --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY src/demos/ReGov/GovernanceToken.sol:GovernanceToken --constructor-args 1000000000000000000 # deployed to 0xd14CF5dCf446612Ef5f766e4cc7e0950DC466077
 ```
 
 Grab the governance token address and put it in this environment variable: $GOVERNANCE_TOKEN_ADDRESS.
@@ -88,7 +88,7 @@ Grab the governance token address and put it in this environment variable: $GOVE
 Next, deploy the origin chain contract to Sepolia:
 
 ```
-forge create --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY src/demos/ReGov/ReGovEvents.sol:ReGovEvents
+forge create --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY src/demos/ReGov/ReGovEvents.sol:ReGovEvents # deployed to 0x1bc8d43e4A8B95B8a8BcB46258458b7176EFd038
 ```
 
 Assign the deployment address to the environment variable ORIGIN_ADDR.
@@ -101,7 +101,7 @@ Other constructor-args should be set as follows:
 - VOTING_PERIOD: The allowed period for proposal voting (uint256).
 
 ```
-forge create --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY src/demos/ReGov/ReGovL1.sol:ReGovL1 --constructor-args $GOVERNANCE_TOKEN_ADDRESS $AUTHORIZED_CALLER_ADDRESS $BASE_GRANT $QUORUM_MULTIPLIER $VOTING_PERIOD
+forge create --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY src/demos/ReGov/ReGovL1.sol:ReGovL1 --constructor-args $GOVERNANCE_TOKEN_ADDRESS $AUTHORIZED_CALLER_ADDRESS $BASE_GRANT $QUORUM_MULTIPLIER $VOTING_PERIOD # deployed to 0x6692AdC196A4CffB1cB1358205C2B0b9A6AdE2a1
 ```
 
 Assign the deployment address to the environment variable `CALLBACK_ADDR`.
@@ -110,7 +110,7 @@ Finally, deploy the reactive contract, configuring it to send callbacks
 to `CALLBACK_ADDR`.
 
 ```
-forge create --rpc-url $REACTIVE_RPC --private-key $REACTIVE_PRIVATE_KEY src/demos/ReGov/ReGovReactive.sol:ReGovReactive --constructor-args $SYSTEM_CONTRACT_ADDR $CALLBACK_ADDR
+forge create --rpc-url $REACTIVE_RPC --private-key $REACTIVE_PRIVATE_KEY src/demos/ReGov/ReGovReactive.sol:ReGovReactive --constructor-args $SYSTEM_CONTRACT_ADDR $CALLBACK_ADDR # deployed to 0x8420Bd1209967d0DBe6c3cdF38dDCe077350Af08
 ```
 
 ## Testing the workflow
@@ -118,7 +118,7 @@ forge create --rpc-url $REACTIVE_RPC --private-key $REACTIVE_PRIVATE_KEY src/dem
 Test the whole setup by creating a proposal:
 
 ```
-cast send $ORIGIN_ADDR 'requestProposalCreate(string,uint256)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY "Proposal 1" 5000000000000000 # sample tx(Sepolia Testnet): 0x27ba36ebd7619857c7d4aa421cdc8576d66c12f49d36b20c6849eb2ed9fa03b6
+cast send $ORIGIN_ADDR 'requestProposalCreate(string,uint256)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY "Proposal 1" 5000000000000000 # sample tx(Sepolia Testnet): sample tx: 0x183657320e5dafb5f2b23ac86e557e4d6ac8c303fde8b3b25e1681274cef88a5
 ```
 
 After a few moments, the ReactVM calls on the callback contract, and we will have a new proposal record:
@@ -126,41 +126,3 @@ After a few moments, the ReactVM calls on the callback contract, and we will hav
 ```
 cast call $CALLBACK_ADDR 'proposals(uint256)(uint256,address,string,uint256,uint256,uint256,bool,uint256,uint256)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY 1
 ```
-
-Testing the react contract:
-
-```
-cast send 0x0063b71A346a4fDd5a7DbFa443eDBfcC09740Cd2 'react(uint256,address,uint256,uint256,uint256,uint256,bytes,uint256,uint256)' --rpc-url $REACTIVE_RPC --private-key $REACTIVE_PRIVATE_KEY 11155111 0xb0D0d3AEa47E1E50b41f69545937f97886e232a9  0x3199a34f29254e2f3052f39a547b89816d2e8c9f8b08c5c8ce5c60b5b6c43ca6 0xE5cc67FB6E343DaE671EB516f95DbfA1F2fb2D44 50000000000000000000 0x0000000000000000000000000000000000000000 0x50726f706f73616c2031 0x0000000000000000000000000000000000000000 0x0000000000000000000000000000000000000000 # sample tx(Kopli Testnet): 0x5d99c1bc65bcf2a3835a8e4dba45bd6e2f4391dbe63fb3c3964b3b8eff81a7ba
-```
-
-### Deployed contracts
-
-#### GovernanceToken
-
-Deployer: 0xE5cc67FB6E343DaE671EB516f95DbfA1F2fb2D44  
-Deployed to: 0x95CBb0592C16B8BA79327E17D3A6B0953a449350  
-Transaction hash: 0xaa94d9e497f7e1b571fcc961de7cea06eb73516db7b3b2c0d59405e8f62b5e2a
-
----
-
-#### ReGovEvents
-
-Deployer: 0xE5cc67FB6E343DaE671EB516f95DbfA1F2fb2D44  
-Deployed to: 0xb0D0d3AEa47E1E50b41f69545937f97886e232a9  
-Transaction hash: 0xf81a122da3866149459dde83dfc94523da8f6fcdfa48ba6b6a66493cd49b7e00
-
----
-
-#### ReGovL1
-
-Deployer: 0xE5cc67FB6E343DaE671EB516f95DbfA1F2fb2D44  
-Deployed to: 0xc6F237C2ED2434aF698CeE205A2C158E9E118B77  
-Transaction hash: 0xc6e08dc80d27c44ce2e7ac66066c91b9fb95f478c241585d6e4442a037d0fd80
-
----
-
-#### ReGovReactive
-
-Deployer: 0xE5cc67FB6E343DaE671EB516f95DbfA1F2fb2D44  
-Deployed to: 0x8420Bd1209967d0DBe6c3cdF38dDCe077350Af08  
-Transaction hash: 0xd3fd9b5fc886b9fcabfe0f57a81e31e853ea3914ef45b7bf9cf81ef6365b065d

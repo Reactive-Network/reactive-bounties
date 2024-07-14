@@ -50,7 +50,7 @@ contract ReGovL1 is Ownable {
         _;
     }
 
-    function createProposal(address /* sender */, address voter, uint256 grantAmount, string memory description) external onlyReactive {
+    function createProposal(address sender, address voter, uint256 grantAmount, string memory description) external onlyReactive {
         proposalCount++;
         uint256 requiredQuorum = calculateQuorum(grantAmount);
         proposals[proposalCount] = Proposal({
@@ -68,7 +68,7 @@ contract ReGovL1 is Ownable {
         emit ProposalCreated(proposalCount, voter, description, grantAmount, requiredQuorum);
     }
 
-    function vote(address /* sender */, address voter, uint256 proposalId, bool support) external onlyReactive {
+    function vote(address sender, address voter, uint256 proposalId, bool support) external onlyReactive {
         Proposal storage proposal = proposals[proposalId];
         require(block.timestamp < proposal.deadline, "Voting period has ended");
         require(!votes[proposalId][voter], "Already voted");
@@ -86,7 +86,7 @@ contract ReGovL1 is Ownable {
         emit Voted(proposalId, voter, support);
     }
 
-    function executeProposal(address /* sender */, uint256 proposalId) external onlyReactive {
+    function executeProposal(address sender, uint256 proposalId) external onlyReactive {
         Proposal storage proposal = proposals[proposalId];
         require(block.timestamp >= proposal.deadline, "Voting period not ended");
         require(!proposal.executed, "Already executed");
@@ -106,7 +106,7 @@ contract ReGovL1 is Ownable {
     }
 
     // Function to fund the contract with governance tokens
-    function fundContract(address /* sender */, address funder, uint256 amount) external onlyReactive {
+    function fundContract(address sender, address funder, uint256 amount) external onlyReactive {
         require(governanceToken.transferFrom(funder, address(this), amount), "Funding failed");
     }
 

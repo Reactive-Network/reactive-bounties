@@ -19,7 +19,7 @@ contract MockReactiveVm is Test {
     constructor(address _regov, address _callback_sender) {
         regov = _regov;
         callback_sender = callback_sender;
-        regovReactive = new ReGovReactive(SERVICE_ADDRESS, regov);
+        regovReactive = new ReGovReactive(SERVICE_ADDRESS, regov, address(0x0));
     }
 
     function ensureReactEmission(uint256 chain_id,
@@ -55,10 +55,10 @@ contract MockReactiveVm is Test {
 
 contract ReGovL1Test is Test {
 
-    uint256 public constant REQUEST_PROPOSAL_CREATE_TOPIC_0 = 0x3199a34f29254e2f3052f39a547b89816d2e8c9f8b08c5c8ce5c60b5b6c43ca6;
-    uint256 public constant REQUEST_PROPOSAL_EXECUTE_TOPIC_0 = 0x9650e8f3bcebc1b27a4b3010f07e121f3e3e3e05ea1c000e5c31d0325cc7e01e;
-    uint256 public constant REQUEST_VOTE_TOPIC_0 = 0x34fb1cc9ebd331c305f8b04f4d8d05ab58f15346234d3c8e6c678d125b292cd3;
-    uint256 public constant REQUEST_FUND_CONTRACT_TOPIC_0 = 0x5ba8e4f49ceeeda68c20e69e05da60c77e21f0b04b98be9422b47aa5481b8e02;
+    uint256 private constant REQUEST_PROPOSAL_CREATE_TOPIC_0 = 0xe647f9c40f113518b40273f67af29fe3bae0e7f7581a87b42ec9ef84989306b6;
+    uint256 private constant REQUEST_PROPOSAL_EXECUTE_TOPIC_0 = 0xae64303d6f1b5137f8b05757269e5af8ff7ea2ef7c733f3e3adf553d974060e8;
+    uint256 private constant REQUEST_VOTE_TOPIC_0 = 0xb703f403fb13707ed08878590d45680ceb08bba172ab33f5f46ca40f000ee1de;
+    uint256 private constant REQUEST_FUND_CONTRACT_TOPIC_0 = 0xf5a4d15b2e66768f5633794bc3d0727dfe77f80a11b57947ae0f3d79a23802d1;
 
     ReGovL1 regov;
     MockReactiveVm mockReactiveVm;
@@ -90,20 +90,20 @@ contract ReGovL1Test is Test {
             1, // chain_id
             address(regov), // _contract
             REQUEST_PROPOSAL_CREATE_TOPIC_0, // topic_0
-            uint256(uint160(voter1)), // topic_1
-            50 ether, // topic_2 grantAmount
             0,
-            "Proposal 1", // data
+            0,
+            0,
+            abi.encode(uint256(uint160(voter1)), 50 ether, "Proposal 1"), // data
             0, // block_number
             0 // op_code
         );
 
         bytes memory payloadExpected = abi.encodeWithSignature(
-            "createProposal(address,address,uint256,string)",
+            "createProposal(address,address,uint256,bytes)",
             address(0),
             address(uint160(voter1)),
             50 ether,
-            "Proposal 1"
+            bytes("Proposal 1")
         );
 
         assertEq(payloadExpected, payload);
@@ -124,10 +124,10 @@ contract ReGovL1Test is Test {
             1, // chain_id
             address(regov), // _contract
             REQUEST_VOTE_TOPIC_0, // topic_0
-            uint256(uint160(voter1)), // topic_1
-            1, // topic_2
-            1, // topic_3 (support)
-            "", // data
+            0,
+            0,
+            0,
+            abi.encode(uint256(uint160(voter1)), 1, 1), // data
             0, // block_number
             0 // op_code
         );
@@ -150,10 +150,10 @@ contract ReGovL1Test is Test {
             1, // chain_id
             address(regov), // _contract
             REQUEST_PROPOSAL_EXECUTE_TOPIC_0, // topic_0
-            1, // topic_1
-            0, // topic_2
-            0, // topic_3
-            "", // data
+            0,
+            0,
+            0,
+            abi.encode(uint256(uint160(voter1)), 1, true), // data
             0, // block_number
             0 // op_code
         );
@@ -179,10 +179,10 @@ contract ReGovL1Test is Test {
             1, // chain_id
             address(regov), // _contract
             REQUEST_FUND_CONTRACT_TOPIC_0, // topic_0
-            uint256(uint160(funder)), // topic_1
-            100, // topic_2 (amount)
-            0, // topic_3
-            "", // data
+            0,
+            0,
+            0,
+            abi.encode(uint256(uint160(funder)), 100), // data
             0, // block_number
             0 // op_code
         );
