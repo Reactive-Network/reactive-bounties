@@ -133,7 +133,7 @@ Now let's vote on this proposal:
 cast send $ORIGIN_ADDR 'requestVote(uint256,bool)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY 1 true # sample tx: 0xd59c749d6089764a64f49613a4b3bd247c8c1ddb72b490ed50470f1c42e427a0
 ```
 
-Fetch the updated proposal value (this should have enough voting to be executed later):
+Fetch the updated proposal value (this should have enough voting to be executed after the voting period ended):
 
 ```
 cast call $CALLBACK_ADDR 'proposals(uint256)(uint256,address,string,uint256,uint256,uint256,bool,uint256,uint256)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY 1
@@ -156,3 +156,5 @@ Now we can execute the proposal:
 ```
 cast send $ORIGIN_ADDR 'requestProposalExecute(uint256)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY 1 # sample tx: 0xb776554643917b9ad4e9740a5536a911116de90c6a6f2b99d50eed04f209503b
 ```
+
+This result in this failed tx 0xb776554643917b9ad4e9740a5536a911116de90c6a6f2b99d50eed04f209503b with error of Fail with error 'Voting period not ended'. It'll executed successfuly after the voting period ended!
