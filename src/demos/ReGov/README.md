@@ -148,5 +148,5 @@ cast send $GOVERNANCE_TOKEN_ADDRESS 'approve(address,uint256)' --rpc-url $SEPOLI
 The actual contract call:
 
 ```
-
+cast send $ORIGIN_ADDR 'requestFundContract(uint256)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY 5000000000000000
 ```
