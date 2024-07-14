@@ -133,28 +133,28 @@ Now let's vote on this proposal:
 cast send $ORIGIN_ADDR 'requestVote(uint256,bool)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY 1 true # sample tx: 0xd59c749d6089764a64f49613a4b3bd247c8c1ddb72b490ed50470f1c42e427a0
 ```
 
-Fetch the updated proposal value (this should have enough voting to be executed after the voting period ended):
+Fetch the updated proposal value (this should have enough votes to be executed after the voting period ends):
 
 ```
 cast call $CALLBACK_ADDR 'proposals(uint256)(uint256,address,string,uint256,uint256,uint256,bool,uint256,uint256)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY 1
 ```
 
-Now let's fund the contract, first we new to approve spending on the destination contract:
+Now let's fund the contract. First, we need to approve spending on the destination contract:
 
 ```
 cast send $GOVERNANCE_TOKEN_ADDRESS 'approve(address,uint256)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY $CALLBACK_ADDR 5000000000000000000 # sample tx: 0xaed0b970fe5de22d51818400d0dc232a04c48f1fc9c7f214c4408c21e4a152f2
 ```
 
-Sending the contract call:
+The contract call:
 
 ```
 cast send $ORIGIN_ADDR 'requestFundContract(uint256)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY 5000000000000000
 ```
 
-Now we can execute the proposal:
+Now we try to execute the proposal:
 
 ```
 cast send $ORIGIN_ADDR 'requestProposalExecute(uint256)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY 1 # sample tx: 0xb776554643917b9ad4e9740a5536a911116de90c6a6f2b99d50eed04f209503b
 ```
+This resulted in the failed transaction 0xb776554643917b9ad4e9740a5536a911116de90c6a6f2b99d50eed04f209503b with the error 'Voting period not ended.' It will be executed successfully after the voting period ends.
 
-This result in this failed tx 0xb776554643917b9ad4e9740a5536a911116de90c6a6f2b99d50eed04f209503b with error of Fail with error 'Voting period not ended'. It'll executed successfuly after the voting period ended!
