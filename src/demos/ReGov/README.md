@@ -133,7 +133,7 @@ Now let's vote on this proposal:
 cast send $ORIGIN_ADDR 'requestVote(uint256,bool)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY 1 true # sample tx: 0xd59c749d6089764a64f49613a4b3bd247c8c1ddb72b490ed50470f1c42e427a0
 ```
 
-Fetch the updated proposal value:
+Fetch the updated proposal value (this should have enough voting to be executed later):
 
 ```
 cast call $CALLBACK_ADDR 'proposals(uint256)(uint256,address,string,uint256,uint256,uint256,bool,uint256,uint256)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY 1
@@ -145,8 +145,14 @@ Now let's fund the contract, first we new to approve spending on the destination
 cast send $GOVERNANCE_TOKEN_ADDRESS 'approve(address,uint256)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY $CALLBACK_ADDR 5000000000000000000 # sample tx: 0xaed0b970fe5de22d51818400d0dc232a04c48f1fc9c7f214c4408c21e4a152f2
 ```
 
-The actual contract call:
+Sending the contract call:
 
 ```
 cast send $ORIGIN_ADDR 'requestFundContract(uint256)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY 5000000000000000
+```
+
+Now we can execute the proposal:
+
+```
+
 ```
