@@ -93,17 +93,17 @@ contract ReGovL1Test is Test {
             0,
             0,
             0,
-            abi.encode(uint256(uint160(voter1)), 50 ether, "Proposal 1"), // data
+            abi.encode(voter1, 50 ether, "Proposal 1"), // data
             0, // block_number
             0 // op_code
         );
 
         bytes memory payloadExpected = abi.encodeWithSignature(
-            "createProposal(address,address,uint256,bytes)",
+            "createProposal(address,address,uint256,string)",
             address(0),
-            address(uint160(voter1)),
+            address(voter1),
             50 ether,
-            bytes("Proposal 1")
+            "Proposal 1"
         );
 
         assertEq(payloadExpected, payload);
@@ -127,16 +127,16 @@ contract ReGovL1Test is Test {
             0,
             0,
             0,
-            abi.encode(uint256(uint160(voter1)), 1, 1), // data
+            abi.encode(voter1, uint256(1), true), // data
             0, // block_number
             0 // op_code
         );
         bytes memory payloadExpected = abi.encodeWithSignature(
             "vote(address,address,uint256,bool)",
             address(0),
-            address(uint160(voter1)),
-            1,
-            1
+            voter1,
+            uint256(1),
+            true
         );
 
         assertEq(payloadExpected, payload);
@@ -153,14 +153,14 @@ contract ReGovL1Test is Test {
             0,
             0,
             0,
-            abi.encode(uint256(uint160(voter1)), 1, true), // data
+            abi.encode(uint256(1)), // data
             0, // block_number
             0 // op_code
         );
         bytes memory payloadExpected = abi.encodeWithSignature(
             "executeProposal(address,uint256)",
             address(0),
-            1
+            uint256(1)
         );
 
         assertEq(payloadExpected, payload);
@@ -182,7 +182,7 @@ contract ReGovL1Test is Test {
             0,
             0,
             0,
-            abi.encode(uint256(uint160(funder)), 100), // data
+            abi.encode(funder, 100), // data
             0, // block_number
             0 // op_code
         );
@@ -190,7 +190,7 @@ contract ReGovL1Test is Test {
         bytes memory payloadExpected = abi.encodeWithSignature(
             "fundContract(address,address,uint256)",
             address(0),
-            address(uint160(funder)),
+            address(funder),
             100
         );
 

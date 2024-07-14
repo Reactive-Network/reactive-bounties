@@ -80,7 +80,7 @@ export GOVERNANCE_TOKEN_ADDRESS="<YOUR_GOVERNANCE_TOKEN_ADDRESS>"
 First, deploy the governance token contract to Sepolia:
 
 ```
-forge create --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY src/demos/ReGov/GovernanceToken.sol:GovernanceToken --constructor-args 1000000000000000000 # deployed to 0xd14CF5dCf446612Ef5f766e4cc7e0950DC466077
+forge create --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY src/demos/ReGov/GovernanceToken.sol:GovernanceToken --constructor-args 1000000000000000000 # deployed to 0x40716560afCF18957ee2904D33ec4959818AD61d
 ```
 
 Grab the governance token address and put it in this environment variable: $GOVERNANCE_TOKEN_ADDRESS.
@@ -88,7 +88,7 @@ Grab the governance token address and put it in this environment variable: $GOVE
 Next, deploy the origin chain contract to Sepolia:
 
 ```
-forge create --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY src/demos/ReGov/ReGovEvents.sol:ReGovEvents # deployed to 0x1bc8d43e4A8B95B8a8BcB46258458b7176EFd038
+forge create --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY src/demos/ReGov/ReGovEvents.sol:ReGovEvents # deployed to 0xdf58683dB9d56AdC19799d819cF678f1B3c69370
 ```
 
 Assign the deployment address to the environment variable ORIGIN_ADDR.
@@ -101,7 +101,7 @@ Other constructor-args should be set as follows:
 - VOTING_PERIOD: The allowed period for proposal voting (uint256).
 
 ```
-forge create --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY src/demos/ReGov/ReGovL1.sol:ReGovL1 --constructor-args $GOVERNANCE_TOKEN_ADDRESS $AUTHORIZED_CALLER_ADDRESS $BASE_GRANT $QUORUM_MULTIPLIER $VOTING_PERIOD # deployed to 0x6692AdC196A4CffB1cB1358205C2B0b9A6AdE2a1
+forge create --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY src/demos/ReGov/ReGovL1.sol:ReGovL1 --constructor-args $GOVERNANCE_TOKEN_ADDRESS $AUTHORIZED_CALLER_ADDRESS $BASE_GRANT $QUORUM_MULTIPLIER $VOTING_PERIOD # deployed to 0x30F10108d9D52898E7228Bab56A202c1301b70BB
 ```
 
 Assign the deployment address to the environment variable `CALLBACK_ADDR`.
@@ -110,7 +110,7 @@ Finally, deploy the reactive contract, configuring it to send callbacks
 to `CALLBACK_ADDR`.
 
 ```
-forge create --rpc-url $REACTIVE_RPC --private-key $REACTIVE_PRIVATE_KEY src/demos/ReGov/ReGovReactive.sol:ReGovReactive --constructor-args $SYSTEM_CONTRACT_ADDR $CALLBACK_ADDR # deployed to 0x8420Bd1209967d0DBe6c3cdF38dDCe077350Af08
+forge create --rpc-url $REACTIVE_RPC --private-key $REACTIVE_PRIVATE_KEY src/demos/ReGov/ReGovReactive.sol:ReGovReactive --constructor-args $SYSTEM_CONTRACT_ADDR $CALLBACK_ADDR $ORIGIN_ADDR # deployed to 0x0063b71A346a4fDd5a7DbFa443eDBfcC09740Cd2
 ```
 
 ## Testing the workflow
@@ -118,11 +118,35 @@ forge create --rpc-url $REACTIVE_RPC --private-key $REACTIVE_PRIVATE_KEY src/dem
 Test the whole setup by creating a proposal:
 
 ```
-cast send $ORIGIN_ADDR 'requestProposalCreate(string,uint256)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY "Proposal 1" 5000000000000000 # sample tx(Sepolia Testnet): sample tx: 0x183657320e5dafb5f2b23ac86e557e4d6ac8c303fde8b3b25e1681274cef88a5
+cast send $ORIGIN_ADDR 'requestProposalCreate(string,uint256)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY "Proposal 1" 50000000000000000 # sample tx(Sepolia Testnet): sample tx: 0x0385ad076bba7b7f8111ed9ae84efaa0f283b8e19495190aea334ec2145efd23
 ```
 
 After a few moments, the ReactVM calls on the callback contract, and we will have a new proposal record:
 
 ```
 cast call $CALLBACK_ADDR 'proposals(uint256)(uint256,address,string,uint256,uint256,uint256,bool,uint256,uint256)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY 1
+```
+
+Now let's vote on this proposal:
+
+```
+cast send $ORIGIN_ADDR 'requestVote(uint256,bool)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY 1 true # sample tx: 0xd59c749d6089764a64f49613a4b3bd247c8c1ddb72b490ed50470f1c42e427a0
+```
+
+Fetch the updated proposal value:
+
+```
+cast call $CALLBACK_ADDR 'proposals(uint256)(uint256,address,string,uint256,uint256,uint256,bool,uint256,uint256)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY 1
+```
+
+Now let's fund the contract, first we new to approve spending on the destination contract:
+
+```
+cast send $GOVERNANCE_TOKEN_ADDRESS 'approve(address,uint256)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY $CALLBACK_ADDR 5000000000000000000 # sample tx: 0xaed0b970fe5de22d51818400d0dc232a04c48f1fc9c7f214c4408c21e4a152f2
+```
+
+The actual contract call:
+
+```
+
 ```
