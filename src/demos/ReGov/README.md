@@ -158,3 +158,7 @@ cast send $ORIGIN_ADDR 'requestProposalExecute(uint256)' --rpc-url $SEPOLIA_RPC 
 ```
 
 This result in this failed tx 0xffc57e738cba4556b539401c2cd7a23f076114b8ecc5f4553c8099834b216085 with error of Fail with error 'Voting period not ended'. It'll executed successfuly after the voting period ended!
+
+Update: tried after 24 hours (voting period) and the proposal executed successfuly!  
+Origin tx: 0x02340c93fc2231ed25c1dcd1666d2f5702642fee32fc0fd671dca1f87a8998ed  
+Callback tx: 0x1ce1744af164fc774c0176d89a414bb3fe34e91f2fa0ac702332a2f5dbaceea0
