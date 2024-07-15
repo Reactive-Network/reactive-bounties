@@ -130,7 +130,7 @@ cast call $CALLBACK_ADDR 'proposals(uint256)(uint256,address,string,uint256,uint
 Now let's vote on this proposal:
 
 ```
-cast send $ORIGIN_ADDR 'requestVote(uint256,bool)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY 1 true # sample tx: 0xd59c749d6089764a64f49613a4b3bd247c8c1ddb72b490ed50470f1c42e427a0
+cast send $ORIGIN_ADDR 'requestVote(uint256,bool)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY 1 true # sample tx: 0xd59c749d6089764a64f49613a4b3bd247c8c1ddb72b490ed50470f1c42e427a0 , callback tx: 0x950c71bacb2b49a4d192e12e540b801d5d5688fd2e717721f7bee3e0fbc5e6cf
 ```
 
 Fetch the updated proposal value (this should have enough votes to be executed after the voting period ends):
@@ -148,13 +148,14 @@ cast send $GOVERNANCE_TOKEN_ADDRESS 'approve(address,uint256)' --rpc-url $SEPOLI
 The contract call:
 
 ```
-cast send $ORIGIN_ADDR 'requestFundContract(uint256)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY 5000000000000000
+cast send $ORIGIN_ADDR 'requestFundContract(uint256)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY 5000000000000000 # sample tx: 0xaed0b970fe5de22d51818400d0dc232a04c48f1fc9c7f214c4408c21e4a152f2, callback tx: 0x5118266433984cffea3f9e73d32caeb065f3006eab8477828732b595be7dae83
 ```
 
 Now we try to execute the proposal:
 
 ```
-cast send $ORIGIN_ADDR 'requestProposalExecute(uint256)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY 1 # sample tx: 0xb776554643917b9ad4e9740a5536a911116de90c6a6f2b99d50eed04f209503b
+cast send $ORIGIN_ADDR 'requestProposalExecute(uint256)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY 1 # sample tx: 0xb776554643917b9ad4e9740a5536a911116de90c6a6f2b99d50eed04f209503b , callback tx: 0xffc57e738cba4556b539401c2cd7a23f076114b8ecc5f4553c8099834b216085
 ```
 This resulted in the failed transaction 0xb776554643917b9ad4e9740a5536a911116de90c6a6f2b99d50eed04f209503b with the error 'Voting period not ended.' It will be executed successfully after the voting period ends.
 
+This result in this failed tx 0xffc57e738cba4556b539401c2cd7a23f076114b8ecc5f4553c8099834b216085 with error of Fail with error 'Voting period not ended'. It'll executed successfuly after the voting period ended!
