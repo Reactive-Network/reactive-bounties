@@ -156,6 +156,5 @@ Now we try to execute the proposal:
 ```
 cast send $ORIGIN_ADDR 'requestProposalExecute(uint256)' --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY 1 # sample tx: 0xb776554643917b9ad4e9740a5536a911116de90c6a6f2b99d50eed04f209503b , callback tx: 0xffc57e738cba4556b539401c2cd7a23f076114b8ecc5f4553c8099834b216085
 ```
-This resulted in the failed transaction 0xb776554643917b9ad4e9740a5536a911116de90c6a6f2b99d50eed04f209503b with the error 'Voting period not ended.' It will be executed successfully after the voting period ends.
 
 This result in this failed tx 0xffc57e738cba4556b539401c2cd7a23f076114b8ecc5f4553c8099834b216085 with error of Fail with error 'Voting period not ended'. It'll executed successfuly after the voting period ended!
