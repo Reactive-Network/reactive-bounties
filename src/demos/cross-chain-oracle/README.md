@@ -14,7 +14,7 @@ flowchart TB
     subgraph RN["Reactive Network"]
         subgraph RV["ReactVM"]
             subgraph RC["Reactive Contract"]
-                RGR("ReGovReactive")
+                RGR("OracleReactive")
             end
         end
     end
