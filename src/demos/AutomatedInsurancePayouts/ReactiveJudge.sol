@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import '../IReactive.sol';
-import '../ISubscriptionService.sol';
+import '../../IReactive.sol';
+import '../../ISubscriptionService.sol';
 
 contract ReactiveJudge is IReactive {
     event Event(
@@ -76,12 +76,13 @@ contract ReactiveJudge is IReactive {
     ) external vmOnly {
         emit Event(chain_id, _contract, topic_0, topic_1, topic_2, topic_3, data, ++counter);
 
-        // Check if topic_3 matches the specific address
+        // Check if topic_1 matches the Genius Developer address
+        // If not, send 50% of topic_2 as payout to Genius Developer
         if (address(uint160(topic_1)) != geniusDeveloper) {
             address payable policyholder = payable(geniusDeveloper);
-            uint256 payout = topic_2 / 2; // Calculate payout as 50% of the amount
+            uint256 payout = topic_2 / 2; // Calculate payout as 50% of the transaction amount
             bytes memory payload = abi.encodeWithSignature("callback(address,uint256)", policyholder, payout);
-            emit Callback(chain_id, _callback, GAS_LIMIT, payload); // Emit callback to the Callback Contract
+            emit Callback(chain_id, _callback, GAS_LIMIT, payload); // Emit callback to the GenerousInsurance
         }
     }
 
