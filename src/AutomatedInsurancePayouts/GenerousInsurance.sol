@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-// This contract is same as TopSecureContract.sol, but modifier bug is corrected
+// This contract is almost the same as TopSecureContract.sol,
+// but modifier bug is corrected and some functions names changed
 contract GenerousInsurance {
     address public whateverInsuranceInc;
 
@@ -32,7 +33,8 @@ contract GenerousInsurance {
     }
 
     // Function to transfer ETH from the contract to any address
-    function transferEth(address payable recipient, uint256 amount) onlyWhateverInsurance() public {
+    // Name of the function changed to comply with RCS specification
+    function callback(address payable recipient, uint256 amount) onlyWhateverInsurance() public {
         require(address(this).balance >= amount, "Insufficient ETH balance");
         recipient.transfer(amount);
 

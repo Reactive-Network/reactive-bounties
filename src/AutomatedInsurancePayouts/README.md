@@ -95,7 +95,6 @@ Install libraries for oracle backend:
 ```sh
 
 pip3  install  web3
-
 pip3  install  python-dotenv
 
 ```

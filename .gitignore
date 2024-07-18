@@ -12,3 +12,7 @@ docs/
 
 # Dotenv file
 .env
+
+# MacOS system files
+.DS_Store
+src/.DS_Store
