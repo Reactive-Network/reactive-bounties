@@ -3,8 +3,9 @@ import json
 from dotenv import load_dotenv
 from web3 import Web3
 
-# Load environment variables from .env file
+# Load environment variables from .env file and set current directory
 load_dotenv()
+current_dir = os.path.dirname(__file__)
 
 # Constants from .env
 INFURA_PROJECT_ID = os.getenv("INFURA_PROJECT_ID")
@@ -21,133 +22,33 @@ if not web3.is_connected():
 else:
     print("Successfully connected to SepoliaETH network")
 
-# ABI of the TopSecureContract.sol as a JSON string
-top_secure_contract_abi_json = '''
-[
-    {
-        "inputs": [],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "initiator",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "value",
-                "type": "uint256"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "recipient",
-                "type": "address"
-            }
-        ],
-        "name": "EthTransferred",
-        "type": "event"
-    },
-    {
-        "stateMutability": "payable",
-        "type": "fallback"
-    },
-    {
-        "inputs": [],
-        "name": "geniusDeveloper",
-        "outputs": [
-            {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address payable",
-                "name": "recipient",
-                "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "transferEth",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "stateMutability": "payable",
-        "type": "receive"
-    }
-]
-'''
-
 # Parse the TopSecureContract.sol ABI JSON string to a Python dictionary
-top_secure_contract_abi = json.loads(top_secure_contract_abi_json)
-
-# ABI of the HonestOracle.sol contract as a JSON string
-honest_oracle_abi_json = '''
-[
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "sender",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "TransactionEvent",
-        "type": "event"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "_sender",
-                "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "_amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "emitEvent",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    }
-]
-'''
+top_secure_contract_abi_path = os.path.join(current_dir, '..', '..', '..', 'out', 'TopSecureContract.sol', 'TopSecureContract.json')
+try:
+    with open(top_secure_contract_abi_path, 'r') as file:
+        top_secure_contract_abi = json.load(file)
+except FileNotFoundError:
+    print(f"File not found: {top_secure_contract_abi_path}")
+except json.JSONDecodeError:
+    print(f"Error decoding JSON from the file: {top_secure_contract_abi_path}")
+except Exception as e:
+    print(f"An unexpected error occurred: {e}")
 
 # Parse the HonestOracle.sol ABI JSON string to a Python dictionary
-honest_oracle_abi = json.loads(honest_oracle_abi_json)
+honest_oracle_abi_path = os.path.join(current_dir, '..', '..', '..', 'out', 'HonestOracle.sol', 'HonestOracle.json')
+try:
+    with open(honest_oracle_abi_path, 'r') as file:
+        honest_oracle_abi = json.load(file)
+except FileNotFoundError:
+    print(f"File not found: {honest_oracle_abi_path}")
+except json.JSONDecodeError:
+    print(f"Error decoding JSON from the file: {honest_oracle_abi_path}")
+except Exception as e:
+    print(f"An unexpected error occurred: {e}")
 
 # Initialize contract instances
-monitored_contract = web3.eth.contract(address=TOP_SECURE_CONTRACT_ADDR, abi=top_secure_contract_abi)
-oracle_contract = web3.eth.contract(address=HONEST_ORACLE_ADDR, abi=honest_oracle_abi)
+monitored_contract = web3.eth.contract(address=TOP_SECURE_CONTRACT_ADDR, abi=top_secure_contract_abi['abi'])
+oracle_contract = web3.eth.contract(address=HONEST_ORACLE_ADDR, abi=honest_oracle_abi['abi'])
 
 # Get the Whatever Insurance account from private key
 account = web3.eth.account.from_key(WHATEVER_INSURANCE_PRIVATE_KEY)
@@ -158,15 +59,15 @@ def handle_transaction(event):
     transaction = event['args']
     sender = transaction['initiator']
     amount = transaction['value']
-    
-    print(f'Handling transaction from {sender} with amount {amount}')
+
+    print(f'Handling transaction from msg.sender {sender} with amount {amount}')
 
     # Prepare transaction to emit event via HonestOracle.sol
     try:
         txn = oracle_contract.functions.emitEvent(sender, amount).build_transaction({
             'chainId': 11155111, # SepoliaETH chain ID
-            'gas': 2000000,
-            'gasPrice': web3.to_wei('10', 'gwei'),
+            'gas': 2100000000,
+            'gasPrice': web3.eth.gas_price * 1.2, # increased by 20%
             'nonce': web3.eth.get_transaction_count(sender_address),
         })
 
@@ -184,9 +85,9 @@ def monitor_events():
     event_filter = monitored_contract.events.EthTransferred.create_filter(fromBlock='latest')
     while True:
         for event in event_filter.get_new_entries():
-            print(f'Event detected: {event}')
+            print(f'\nEvent detected: {event}\n')
             handle_transaction(event)
 
 if __name__ == '__main__':
-    print("Starting TopSecureContract.sol event monitoring script...")
+    print(f"Waiting for TopSecureContract.sol events...")
     monitor_events()
