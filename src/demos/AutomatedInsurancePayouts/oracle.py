@@ -9,6 +9,7 @@ current_dir = os.path.dirname(__file__)
 
 # Constants from .env
 INFURA_PROJECT_ID = os.getenv("INFURA_PROJECT_ID")
+GENIUS_DEVELOPER_ADDR = os.getenv("GENIUS_DEVELOPER_ADDR")
 TOP_SECURE_CONTRACT_ADDR = os.getenv("TOP_SECURE_CONTRACT_ADDR")
 HONEST_ORACLE_ADDR = os.getenv("HONEST_ORACLE_ADDR")
 WHATEVER_INSURANCE_PRIVATE_KEY = os.getenv("WHATEVER_INSURANCE_PRIVATE_KEY")
@@ -59,26 +60,34 @@ def handle_transaction(event):
     transaction = event['args']
     sender = transaction['initiator']
     amount = transaction['value']
+    recipient = transaction['recipient']
 
-    print(f'Handling transaction from msg.sender {sender} with amount {amount}')
+    if recipient == GENIUS_DEVELOPER_ADDR:
+        print(f'Authorised TX:\n \
+              msg.sender: {sender}\n \
+              amount: {amount}\n \
+              recipient: {recipient}')
+    else:
+        print(f'Unauthorised TX:\n \
+              msg.sender: {sender}\n \
+              amount: {amount}\n \
+              recipient: {recipient}')
+        try: # Prepare transaction to emit event via HonestOracle.sol
+            txn = oracle_contract.functions.emitEvent(sender, amount).build_transaction({
+                'chainId': 11155111, # SepoliaETH chain ID
+                'gas': 2000000,
+                'gasPrice': web3.eth.gas_price, # increased by 20%
+                'nonce': web3.eth.get_transaction_count(sender_address),
+            })
 
-    # Prepare transaction to emit event via HonestOracle.sol
-    try:
-        txn = oracle_contract.functions.emitEvent(sender, amount).build_transaction({
-            'chainId': 11155111, # SepoliaETH chain ID
-            'gas': 2100000000,
-            'gasPrice': web3.eth.gas_price * 1.2, # increased by 20%
-            'nonce': web3.eth.get_transaction_count(sender_address),
-        })
+            # Sign the transaction
+            signed_txn = web3.eth.account.sign_transaction(txn, private_key=WHATEVER_INSURANCE_PRIVATE_KEY)
 
-        # Sign the transaction
-        signed_txn = web3.eth.account.sign_transaction(txn, private_key=WHATEVER_INSURANCE_PRIVATE_KEY)
-
-        # Send the transaction
-        tx_hash = web3.eth.send_raw_transaction(signed_txn.rawTransaction)
-        print(f'Transaction sent with hash: {web3.to_hex(tx_hash)}')
-    except Exception as e:
-        print(f'Error building or sending transaction: {str(e)}')
+            # Send the transaction
+            tx_hash = web3.eth.send_raw_transaction(signed_txn.rawTransaction)
+            print(f'Transaction sent with hash: {web3.to_hex(tx_hash)}')
+        except Exception as e:
+            print(f'Error building or sending transaction: {str(e)}')
 
 # Subscribe to the TopSecureContract.sol events
 def monitor_events():
