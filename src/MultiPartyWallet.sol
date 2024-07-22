@@ -1,13 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import "@openzeppelin/contracts@4.9.3/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts@4.9.3/access/Ownable.sol";
-import "@openzeppelin/contracts@4.9.3/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract MultiPartyWallet is Ownable {
-    using SafeMath for uint256;
-
     struct Shareholder {
         uint256 shares;
         uint256 lastClaimed;
@@ -28,6 +25,8 @@ contract MultiPartyWallet is Ownable {
         _;
     }
 
+    constructor(address initialOwner) Ownable(initialOwner) {}
+
     function addShareholder(address _shareholder, uint256 _shares) external onlyOwner {
         require(_shareholder != address(0), "Invalid address");
         require(_shares > 0, "Shares must be greater than zero");
@@ -38,7 +37,7 @@ contract MultiPartyWallet is Ownable {
             lastClaimed: totalDistributed
         });
         shareholderAddresses.push(_shareholder);
-        totalShares = totalShares.add(_shares);
+        totalShares += _shares;
 
         emit ShareholderAdded(_shareholder, _shares);
     }
@@ -46,7 +45,7 @@ contract MultiPartyWallet is Ownable {
     function removeShareholder(address _shareholder) external onlyOwner {
         require(shareholders[_shareholder].shares > 0, "Not a shareholder");
 
-        totalShares = totalShares.sub(shareholders[_shareholder].shares);
+        totalShares -= shareholders[_shareholder].shares;
         delete shareholders[_shareholder];
 
         for (uint256 i = 0; i < shareholderAddresses.length; i++) {
@@ -72,11 +71,11 @@ contract MultiPartyWallet is Ownable {
             address shareholderAddress = shareholderAddresses[i];
             Shareholder storage shareholder = shareholders[shareholderAddress];
 
-            uint256 payment = totalBalance.mul(shareholder.shares).div(totalShares);
+            uint256 payment = (totalBalance * shareholder.shares) / totalShares;
             payable(shareholderAddress).transfer(payment);
         }
 
-        totalDistributed = totalDistributed.add(totalBalance);
+        totalDistributed += totalBalance;
         emit FundsDistributed(totalBalance);
     }
 
@@ -88,11 +87,11 @@ contract MultiPartyWallet is Ownable {
             address shareholderAddress = shareholderAddresses[i];
             Shareholder storage shareholder = shareholders[shareholderAddress];
 
-            uint256 payment = totalBalance.mul(shareholder.shares).div(totalShares);
+            uint256 payment = (totalBalance * shareholder.shares) / totalShares;
             token.transfer(shareholderAddress, payment);
         }
 
-        totalDistributed = totalDistributed.add(totalBalance);
+        totalDistributed += totalBalance;
         emit FundsDistributed(totalBalance);
     }
 

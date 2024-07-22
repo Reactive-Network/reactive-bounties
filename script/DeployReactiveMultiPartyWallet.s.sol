@@ -6,8 +6,9 @@ import "../src/MultiPartyWallet.sol";
 
 contract DeployMultiPartyWallet is Script {
     function run() external {
+        address initialOwner = msg.sender; 
         vm.startBroadcast();
-        MultiPartyWallet wallet = new MultiPartyWallet();
+        MultiPartyWallet wallet = new MultiPartyWallet(initialOwner);
         vm.stopBroadcast();
     }
 }
