@@ -9,6 +9,7 @@ contract DeployMultiPartyWallet is Script {
         address initialOwner = msg.sender; 
         vm.startBroadcast();
         MultiPartyWallet wallet = new MultiPartyWallet(initialOwner);
+        console.log(address(wallet));
         vm.stopBroadcast();
     }
 }
