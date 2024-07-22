@@ -5,6 +5,7 @@ This document provides step-by-step instructions and transaction hashes for depl
 
 ## Deployment
 1. Deploy `MultiPartyWallet`:
+   - Command: `forge script script/DeployReactiveMultiPartyWallet.s.sol --rpc-url $kopli_RPC_URL --private-key $PRIVATE_KEY --gas-price 20000000000 --broadcast --legacy -vvvv`
    - Contract Address: `0xea7a667800ac855d739e2396ec12f67dbb144cc8` 
    - Transaction Hash: `https://kopli.reactscan.net/tx/0x567bcb256d03af21bd8cb4290f87b1066058ebb8346b47cec8f2ceae7157a252`
 
