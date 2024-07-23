@@ -5,25 +5,23 @@ This document provides step-by-step instructions and transaction hashes for depl
 
 ## Deployment
 1. Deploy `MultiPartyWallet`:
-   - Command: `forge script script/DeployReactiveMultiPartyWallet.s.sol --rpc-url $kopli_RPC_URL --private-key $PRIVATE_KEY --gas-price 20000000000 --broadcast --legacy -vvvv`
-   - Contract Address: `0xea7a667800ac855d739e2396ec12f67dbb144cc8` 
-   - Transaction Hash: `https://kopli.reactscan.net/tx/0x567bcb256d03af21bd8cb4290f87b1066058ebb8346b47cec8f2ceae7157a252`
+   - Contract Address: `0x3Aac6f50d37B1D52332bE4c406e471F67d745a06` 
+   - Transaction Hash: `https://kopli.reactscan.net/tx/0xde096e5ea4d7f47cba66f186359a70b16122bf4e3df62d70091e2fb938f897c6`
 
 ## Interaction Steps
 1. Add Shareholder:
-   - Command: `await wallet.addShareholder("0x003fdB58f24Cc1a46847ACD13bC83CD5D7c3E6EB", 25);`
-   - Transaction Hash: `https://kopli.reactscan.net/tx/0x5a670c77f39688b47670ad4d0d61e2f63c5f71741f2cb449d9efd195fe767a5c`
+   - Transaction Hash: `https://kopli.reactscan.net/tx/0x9c96e873ef46ec76829287ea458c4c192c3e69565c7122b35d1996d4a4df6bea`
 
 2. Distribute Funds(Native Token - REACT):
-   - Transfer REACT to contract:`https://kopli.reactscan.net/tx/0xae403a1e05e2e151de92438d6632566bb720dedab0136eb7efcbc814a7b478f2`
-   - Command: `await wallet.distributeFunds();`
-   - Transaction Hash: `https://kopli.reactscan.net/tx/0xfc2a5c53da1b4fd8e6ae5920328c3eb1991b772296db846c894c412fc341f58f`
+   - Transfer REACT to contract:`https://kopli.reactscan.net/tx/0x34ee643e72493040a31440215486a9e51d40c51b4b96c52ab193b62f143b0adb`
+   - Transaction Hash: `https://kopli.reactscan.net/tx/0xc57a25d7d1fd4c959366bd6c6de72a3d9afcd4eef7ccd6f65225c414dcbc87fd`
 
 ## Additional Functionality
 1. Distribute Token Funds:
-   - Transfer Test tokens to contract: `https://kopli.reactscan.net/tx/0x4bba3cc7d27364d80af2a1883165fd6ff74b816d15ff64f724132bc9ea805d0a`
-   - Command: `await wallet.distributeTokenFunds(0x867Fc8C285fDDDc1A5FfB04ce9B0685AE2718A20);`
-   - Transaction Hash: `https://kopli.reactscan.net/tx/0x979698029cb89b3a0e600eb1e16f949e5a0c76fb079d39e2c8b81531525173bd`
+   - Transfer Test tokens to contract: `https://kopli.reactscan.net/tx/0x0ed04df7aea13afd5521c8461134723e5cbf8bd2b52ca56c521a83015b7912ad`
+   - Token Address: `0x0A47b4DbdfAaa8509B63E081f3B312b45cAd1198`
+   - Add Another ShareHolder: `https://kopli.reactscan.net/tx/0xe97a7ead8939a0159164524be75f6cbbbf2661295745274afb9bdd76180f29e7`
+   - Transaction Hash of Distribution: `https://kopli.reactscan.net/tx/0xdd66af11323beba0f153e40ef9b834867a7e1b69cacaf493fe7f1e1c19f84cf0`
 
 ## Explanation
 Reactive Smart Contracts allow for seamless and automated fund distribution among multiple shareholders, ensuring transparency and efficiency.
