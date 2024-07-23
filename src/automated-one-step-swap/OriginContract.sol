@@ -5,16 +5,6 @@ pragma abicoder v2;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol";
 
-/**
-Please read the README.md file in regards to using the Permit.  Basically,
-not all ERC-20's implement the IERC20Permit interface.  
-
-This implementation is an example of how to use the Permit process to initialize
-the swap transaction in one step.  Refer to the other implementation outside of
-this Permit folder for the one-step swap without the Permit interface.
-
- */
-
 interface ISwapRouter02 {
     struct ExactInputSingleParams {
         address tokenIn;
@@ -33,78 +23,87 @@ contract OriginContract {
     /// CONSTANTS
 
     address constant SWAP_ROUTER = 0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E;
+    address public constant USDT = 0xaA8E23Fb1079EA71e0a56F48a2aA51851D8433D0;
+    address public constant WETH9 = 0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14;
+
+    /// STRUCTS
+
+    struct InputParameters {
+        address tokenOut;
+        uint256 amountOutMin;
+        uint24 fee;
+    }
+
+    /// STATE VARIABLES
+
+    InputParameters inputParameters;
+    address private callback_sender;
 
     /// EVENTS
 
-    event SwapApproved(
-        address indexed user,
-        address indexed tokenIn,
-        address indexed tokenOut,
-        uint256 amountIn,
-        uint256 amountOutMin,
-        uint24 fee
-    );
-
     event CallbackReceived(
-        address indexed topic_1,
-        address indexed topic_2,
-        address indexed topic_3,
-        uint256 amountIn,
-        uint256 amountOutMin,
-        uint24 fee
+        address indexed owner, address indexed spender, address indexed tokenIn, uint256 amountIn, uint256 eventTag
     );
 
     event UniSwapV3Swap(
-        address indexed user, 
-        address indexed tokenIn, 
-        address indexed tokenOut, 
-        uint256 amountIn, 
-        uint256 amountOut
+        address indexed owner, address indexed tokenIn, address indexed tokenOut, uint256 amountIn, uint256 amountOut
     );
+
+    /// CONSTRUCTOR
+
+    constructor( /* _callback_sender */ ) {
+        // callback_sender = _callback_sender;
+        inputParameters = InputParameters({tokenOut: WETH9, amountOutMin: 0, fee: 3000});
+    }
+
+    /// MODIFIERS
+
+    modifier onlyReactive() {
+        // TODO: Verify the callback_sender address
+        // if (callback_sender != address(0)) {
+        //     require(msg.sender == callback_sender, 'Unauthorized');
+        // }
+        _;
+    }
 
     /// EXTERNAL FUNCTIONS
 
-    function approveSwapWithPermit(
-        address tokenIn,
-        address tokenOut,
-        uint256 amountIn,
-        uint256 amountOutMin,
-        uint24 fee,
-        uint256 deadline,
-        uint8 v,
-        bytes32 r,
-        bytes32 s
-    ) external {
-        // Use Permit to approve tokens
-        IERC20Permit(tokenIn).permit(msg.sender, address(this), amountIn, deadline, v, r, s);
-        
-        // Transfer tokens from user's EOA to this contract
-        require(IERC20(tokenIn).transferFrom(msg.sender, address(this), amountIn), "Transfer Failed");
-
-        // Approve router to spend tokens from this contract
-        require(IERC20(tokenIn).approve(SWAP_ROUTER, amountIn), "Approval Failed");
-
-        // Emit event for RSC to pick up
-        emit SwapApproved(msg.sender, tokenIn, tokenOut, amountIn, amountOutMin, fee);
+    function setInputParameters(address _tokenOut, uint256 _amountOutMin, uint24 _fee) external {
+        if (_tokenOut != address(0)) inputParameters.tokenOut = _tokenOut;
+        if (_amountOutMin != 0) inputParameters.amountOutMin = _amountOutMin;
+        if (_fee != 0) inputParameters.fee = _fee;
     }
 
-    function callback(
-        address, /* sender */
-        address topic_1,
-        address topic_2,
-        address topic_3,
-        uint256 amountIn,
-        uint256 amountOutMin,
-        uint24 fee
-    ) external {
-        emit CallbackReceived(topic_1, topic_2, topic_3, amountIn, amountOutMin, fee);
-        _uniSwapV3Swap(topic_1, topic_2, topic_3, amountIn, amountOutMin, fee);
+    /// @dev function called by the Reactive contract
+    function callback(address, /* sender */ address owner, address spender, address tokenIn, uint256 amountIn)
+        external
+        onlyReactive
+    {
+        emit CallbackReceived(owner, spender, tokenIn, amountIn, 42);
+        IERC20 IERC20tokenIn = IERC20(tokenIn);
+
+        // Transfer tokens from owner's EOA to this contract - emits Transfer event
+        IERC20tokenIn.transferFrom(owner, address(this), amountIn);
+
+        // Approve router to spend tokens from this contract - emits Approve event
+        IERC20tokenIn.approve(SWAP_ROUTER, amountIn);
+
+        _uniSwapV3Swap(
+            owner, tokenIn, inputParameters.tokenOut, amountIn, inputParameters.amountOutMin, inputParameters.fee
+        );
+    }
+
+    /// @dev I kept locking up tokens when my test calls failed :(
+    function withdraw(address token) external {
+        uint256 balance = IERC20(token).balanceOf(address(this));
+        require(balance > 0, "No tokens to withdraw");
+        IERC20(token).transfer(msg.sender, balance);
     }
 
     /// PRIVATE FUNCTIONS
 
     function _uniSwapV3Swap(
-        address user,
+        address owner,
         address tokenIn,
         address tokenOut,
         uint256 amountIn,
@@ -115,14 +114,14 @@ contract OriginContract {
             tokenIn: tokenIn,
             tokenOut: tokenOut,
             fee: fee,
-            recipient: user,
+            recipient: owner,
             amountIn: amountIn,
-            amountOutMinimum: 0, // naively set to zero for demo purposes
+            amountOutMinimum: amountOutMin,
             sqrtPriceLimitX96: 0 // naively set to zero for demo purposes
         });
 
         uint256 amountOut = ISwapRouter02(SWAP_ROUTER).exactInputSingle(params);
 
-        emit UniSwapV3Swap(user, tokenIn, tokenOut, amountIn, amountOut);
+        emit UniSwapV3Swap(owner, tokenIn, tokenOut, amountIn, amountOut);
     }
 }

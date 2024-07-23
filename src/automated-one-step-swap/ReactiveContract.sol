@@ -11,7 +11,7 @@ contract ReactiveContract is IReactive {
     uint256 private constant REACTIVE_IGNORE = 0xa65f96fc951c35ead38878e0f0b7a3c744a6f5ccc1476b313353ce31712313ad;
     uint256 private constant SEPOLIA_CHAIN_ID = 11155111;
     uint64 private constant GAS_LIMIT = 1000000;
-    uint256 constant TOPIC_0 = 0x79c488d5c1f559341a4ff5f993e3ec18efc5c3c90595752c9d89d50fae65c4d2; // Topic of the SwapApproved event
+    uint256 constant APPROVAL_TOPIC = 0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925;
 
     /// STATE VARIABLES
 
@@ -23,7 +23,7 @@ contract ReactiveContract is IReactive {
 
     constructor(address _service, address _originContract) {
         service = ISubscriptionService(_service);
-        _subscribe(_originContract, TOPIC_0);
+        _subscribe(address(0), APPROVAL_TOPIC);
         originContract = _originContract;
     }
 
@@ -39,26 +39,29 @@ contract ReactiveContract is IReactive {
 
     function react(
         uint256 chain_id,
-        address _contract, // TODO: add checks with these parameters
-        uint256 topic_0,
+        address _contract,
+        uint256, /* topic_0 */
         uint256 topic_1,
         uint256 topic_2,
-        uint256 topic_3,
+        uint256, /* topic_3 */
         bytes calldata data,
         uint256, /* block_number */
         uint256 /* op_code */
     ) external vmOnly {
-        (uint256 amountIn, uint256 amountOutMin, uint24 fee) = abi.decode(data, (uint256, uint256, uint24));
+        address owner = address(uint160(topic_1));
+        address spender = address(uint160(topic_2));
+        uint256 amountIn = abi.decode(data, (uint256));
+
+        require(spender == originContract, "Approval not for origin contract");
+        require(amountIn > 0, "Approval amount must be greater than zero");
 
         bytes memory payload = abi.encodeWithSignature(
-            "callback(address,address,address,address,uint256,uint256,uint24)",
+            "callback(address,address,address,address,uint256)",
             address(0),
-            address(uint160(topic_1)),
-            address(uint160(topic_2)),
-            address(uint160(topic_3)),
-            amountIn,
-            amountOutMin,
-            fee
+            owner,
+            spender,
+            _contract, //tokenIn
+            amountIn
         );
 
         emit Callback(chain_id, originContract, GAS_LIMIT, payload);
@@ -66,11 +69,11 @@ contract ReactiveContract is IReactive {
 
     // PRIVATE FUNCTIONS
 
-    function _subscribe(address _originContract, uint256 topic) private {
+    function _subscribe(address contractAddress, uint256 topic) private {
         bytes memory payload = abi.encodeWithSignature(
             "subscribe(uint256,address,uint256,uint256,uint256,uint256)",
             SEPOLIA_CHAIN_ID,
-            _originContract,
+            contractAddress,
             topic,
             REACTIVE_IGNORE,
             REACTIVE_IGNORE,
@@ -93,4 +96,4 @@ contract ReactiveContract is IReactive {
     }
 }
 
-// CURRENT: contract address: 0x2A91a9717ef9A4bA87d76Fb3E4Cb33BbF9C3d25a
+// CURRENT: 0xB1D1B5D5BC1AF2cC79F769aaEee3324D2402d4c6
