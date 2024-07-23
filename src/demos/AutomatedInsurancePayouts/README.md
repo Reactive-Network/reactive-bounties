@@ -1,3 +1,7 @@
+This is application for Automated Insurance Payouts bounty.
+
+My contact e-mail: ncg8j6dz@proton.me
+
 ## Problem Statement and Proposed Solution
 
 This proposed solution for Automated Insurance Payouts with Reactive Network uses EVM event as formal criteria for insurance claim and compensation in one automated step. It can be viewed as manifestation of "Code Is Law" attitude and completely eliminates the problem of decision bias that can happen in Validation, Investigation and Voting phases of usual decentralized insurance payout process (like Nexus Mutual).
