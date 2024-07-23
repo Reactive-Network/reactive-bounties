@@ -6,15 +6,14 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol";
 
 /**
-Please read the README.md file in regards to using the Permit.  Basically,
-not all ERC-20's implement the IERC20Permit interface.  
-
-This implementation is an example of how to use the Permit process to initialize
-the swap transaction in one step.  Refer to the other implementation outside of
-this Permit folder for the one-step swap without the Permit interface.
-
+ * Please read the README.md file in regards to using the Permit.  Basically,
+ * not all ERC-20's implement the IERC20Permit interface.
+ *
+ * This implementation is an example of how to use the Permit process to initialize
+ * the swap transaction in one step.  Refer to the other implementation outside of
+ * this Permit folder for the one-step swap without the IERC20Permit interface.
  */
-
+ 
 interface ISwapRouter02 {
     struct ExactInputSingleParams {
         address tokenIn;
@@ -55,11 +54,7 @@ contract OriginContractWithPermit {
     );
 
     event UniSwapV3Swap(
-        address indexed user, 
-        address indexed tokenIn, 
-        address indexed tokenOut, 
-        uint256 amountIn, 
-        uint256 amountOut
+        address indexed user, address indexed tokenIn, address indexed tokenOut, uint256 amountIn, uint256 amountOut
     );
 
     /// EXTERNAL FUNCTIONS
@@ -77,7 +72,7 @@ contract OriginContractWithPermit {
     ) external {
         // Use Permit to approve tokens
         IERC20Permit(tokenIn).permit(msg.sender, address(this), amountIn, deadline, v, r, s);
-        
+
         // Transfer tokens from user's EOA to this contract
         require(IERC20(tokenIn).transferFrom(msg.sender, address(this), amountIn), "Transfer Failed");
 

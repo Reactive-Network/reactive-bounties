@@ -2,8 +2,8 @@
 pragma solidity >=0.8.0;
 pragma abicoder v2;
 
-import "../../Interfaces/IReactive.sol";
-import "../../Interfaces/ISubscriptionService.sol";
+import "../../../Interfaces/IReactive.sol";
+import "../../../Interfaces/ISubscriptionService.sol";
 
 contract ReactiveContract is IReactive {
     /// CONSTANTS
