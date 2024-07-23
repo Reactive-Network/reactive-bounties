@@ -33,6 +33,10 @@ contract OriginContractWithPermit {
 
     address constant SWAP_ROUTER = 0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E;
 
+    /// STATE VARIABLES
+
+    address private callback_sender;
+
     /// EVENTS
 
     event SwapApproved(
@@ -54,8 +58,28 @@ contract OriginContractWithPermit {
     );
 
     event UniSwapV3Swap(
-        address indexed user, address indexed tokenIn, address indexed tokenOut, uint256 amountIn, uint256 amountOut
+        address indexed user, 
+        address indexed tokenIn, 
+        address indexed tokenOut, 
+        uint256 amountIn, 
+        uint256 amountOut
     );
+
+    /// CONSTRUCTOR
+
+    constructor( /* _callback_sender */ ) {
+        // callback_sender = _callback_sender;
+    }
+
+    /// MODIFIERS
+
+    modifier onlyReactive() {
+        // TODO: Verify the callback_sender address
+        // if (callback_sender != address(0)) {
+        //     require(msg.sender == callback_sender, 'Unauthorized');
+        // }
+        _;
+    }
 
     /// EXTERNAL FUNCTIONS
 
@@ -94,6 +118,13 @@ contract OriginContractWithPermit {
     ) external {
         emit CallbackReceived(topic_1, topic_2, topic_3, amountIn, amountOutMin, fee);
         _uniSwapV3Swap(topic_1, topic_2, topic_3, amountIn, amountOutMin, fee);
+    }
+
+    /// @dev I kept locking up tokens when my test calls failed :(
+    function withdraw(address token) external {
+        uint256 balance = IERC20(token).balanceOf(address(this));
+        require(balance > 0, "No tokens to withdraw");
+        IERC20(token).transfer(msg.sender, balance);
     }
 
     /// PRIVATE FUNCTIONS
