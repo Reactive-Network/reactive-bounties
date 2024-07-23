@@ -32,12 +32,13 @@ contract ReactiveJudge is IReactive {
     // State specific to ReactVM instance of the contract
     uint256 public counter;
 
-    // State specific addresses for insurance payouts
-    address public geniusDeveloper;
+    // State specific variables for insurance payouts
+    address public policyholderAddress;
+    address public senderAddress;
+    uint256 public payoutAmount;
 
     constructor(address service_address, address _contract, uint256 topic_0, address callback) {
         service = ISubscriptionService(service_address);
-        geniusDeveloper = 0x2b32CE6f546a8a3E852DD9356f9f556D17DBd179;
 
         bytes memory payload = abi.encodeWithSignature(
             "subscribe(uint256,address,uint256,uint256,uint256,uint256)",
@@ -75,14 +76,17 @@ contract ReactiveJudge is IReactive {
         uint256 /* op_code */
     ) external vmOnly {
         emit Event(chain_id, _contract, topic_0, topic_1, topic_2, topic_3, data, ++counter);
+        
+        // Arguments for payout() function in Callback Contract
+        policyholderAddress = 0x2b32CE6f546a8a3E852DD9356f9f556D17DBd179;
+        senderAddress = address(uint160(topic_1));
+        payoutAmount = topic_2 / 2;
 
-        // Check if topic_1 matches the Genius Developer address
-        // If not, send 50% of topic_2 as payout to Genius Developer
-        if (address(uint160(topic_1)) != geniusDeveloper) {
-            address payable policyholder = payable(geniusDeveloper);
-            uint256 payout = topic_2 / 2; // Calculate payout as 50% of the transaction amount
-            bytes memory payload = abi.encodeWithSignature("callback(address,uint256)", policyholder, payout);
-            emit Callback(chain_id, _callback, GAS_LIMIT, payload); // Emit callback to the GenerousInsurance
+        // In case of incident make payload based on event topics
+        // and cast callback to payout() function of GenerousVault
+        if (senderAddress != policyholderAddress) {
+            bytes memory payload = abi.encodeWithSignature("payout(address,address,uint256)", address(0), policyholderAddress, payoutAmount);
+            emit Callback(chain_id, _callback, GAS_LIMIT, payload); // Emit callback to the GenerousVault
         }
     }
 
