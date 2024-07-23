@@ -2,8 +2,8 @@
 
 pragma solidity >=0.8.0;
 
-import '../../IReactive.sol';
-import '../../ISubscriptionService.sol';
+import "../../Interfaces/IReactive.sol";
+import "../../Interfaces/ISubscriptionService.sol";
 
 contract BasicDemoReactiveContract is IReactive {
     event Event(
@@ -71,7 +71,7 @@ contract BasicDemoReactiveContract is IReactive {
         uint256 topic_2,
         uint256 topic_3,
         bytes calldata data,
-        uint256 /* block_number */,
+        uint256, /* block_number */
         uint256 /* op_code */
     ) external vmOnly {
         emit Event(chain_id, _contract, topic_0, topic_1, topic_2, topic_3, data, ++counter);
@@ -84,25 +84,11 @@ contract BasicDemoReactiveContract is IReactive {
     // Methods for testing environment only
 
     function subscribe(address _contract, uint256 topic_0) external {
-        service.subscribe(
-            SEPOLIA_CHAIN_ID,
-            _contract,
-            topic_0,
-            REACTIVE_IGNORE,
-            REACTIVE_IGNORE,
-            REACTIVE_IGNORE
-        );
+        service.subscribe(SEPOLIA_CHAIN_ID, _contract, topic_0, REACTIVE_IGNORE, REACTIVE_IGNORE, REACTIVE_IGNORE);
     }
 
     function unsubscribe(address _contract, uint256 topic_0) external {
-        service.unsubscribe(
-            SEPOLIA_CHAIN_ID,
-            _contract,
-            topic_0,
-            REACTIVE_IGNORE,
-            REACTIVE_IGNORE,
-            REACTIVE_IGNORE
-        );
+        service.unsubscribe(SEPOLIA_CHAIN_ID, _contract, topic_0, REACTIVE_IGNORE, REACTIVE_IGNORE, REACTIVE_IGNORE);
     }
 
     function resetCounter() external {
