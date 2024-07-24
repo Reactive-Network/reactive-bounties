@@ -22,6 +22,10 @@ When swapping tokens on a typical DEX, users normally have to go through a two-s
 With the Reactive network and Reactive Smart Contracts (RSC), we can reduce this to a one-step process:
 1. Approve the swap
 
+The problem is approving can be a HUGE pain, especially when you swap a lot.  Which means you will probably give "unlimited" approval to DEX's and INSERT HACK HERE. Boom, all of your funds are drained. 
+
+The neat thing would be to only approve what you want to trade.  The neat thing is that is exactly what this demonstration does.  You ONLY approve what you trade and then the approval AUTOMATICALLY gets set back to zero.  Its cooler than getting rekt. 
+
 ## Approaches
 
 There are two approaches this repository takes to one-step swap, ***both ways use Reactive network and RSC's***:
