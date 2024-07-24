@@ -4,12 +4,12 @@
 
 # Key concepts:
 
-- Monitoring of payments received by l1 contract through events emitted on Sepolia Network 
-- Calls from Reactive Network to L1 contract to split the balance equally.
+- Monitoring of payments received by PaymentSplitter contract through events emitted on Sepolia Network 
+- Calls from Reactive Network to PaymentSplitter contract to split the balance equally.
 
 ### Origin Chain & Dest Chain Contract
 
-This contract emits logs on eth received for Reactive Network and it also contains the function for the callback contract to split payment.
+This contract PaymentSplitter emits logs on eth received for Reactive Network and it also contains the function for the callback contract to split payment.
 
 
 ## Reactive Contract
@@ -37,7 +37,7 @@ export ORIGIN_ADDR="<YOUR_ORIGIN_ADDR>"
 First, deploy the PaymentSplitter contract to Sepolia:
 
 ```
-forge create --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY src/demos/PaymentSplitter/L1.sol:PaymentSplitter  # deployed on 0xc56Ba0Ad041eb1d5F54d33A062f82a1D0f091F92
+forge create --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY src/demos/PaymentSplitter/PaymentSplitter.sol:PaymentSplitter  # deployed on 0xc56Ba0Ad041eb1d5F54d33A062f82a1D0f091F92
 ```
 
 Grab the PaymentSplitter contract address and put it in this environment variable: $ORIGIN__ADDR.
