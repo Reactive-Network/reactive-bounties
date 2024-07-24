@@ -1,21 +1,22 @@
-# Payment Splitted To Multiple Wallets On Arriving Without Charging A Penny Extra From The Sender. 
+
+# Payment Splitter: Splitting Payments Across Multiple Wallets
 
 ## Overview
 
-# Key concepts:
+This project demonstrates a payment splitting mechanism that distributes incoming payments to multiple wallets without charging the sender any additional fees.
 
-- Monitoring of payments received by PaymentSplitter contract through events emitted on Sepolia Network 
-- Calls from Reactive Network to PaymentSplitter contract to split the balance equally.
+### Key Concepts
 
-### Origin Chain & Dest Chain Contract
+- Monitoring of payments received by the `PaymentSplitter` contract through events emitted on the Sepolia Network.
+- Calls from the Reactive Network to the `PaymentSplitter` contract to split the balance equally.
 
-This contract PaymentSplitter emits logs on eth received for Reactive Network and it also contains the function for the callback contract to split payment.
+### Origin Chain and Destination Chain Contracts
 
+The `PaymentSplitter` contract emits logs on ETH received for the Reactive Network and also contains the function for the callback contract to split the payment.
 
 ## Reactive Contract
 
-Reactive contracts implement the logic of event monitoring and initiating calls back to destination chain. 
-
+The Reactive contracts implement the logic of event monitoring and initiating calls back to the destination chain.
 
 ## Deployment
 
@@ -34,38 +35,33 @@ export ORIGIN_ADDR="<YOUR_ORIGIN_ADDR>"
 
 ### Deploy the Contracts
 
-First, deploy the PaymentSplitter contract to Sepolia:
+1. Deploy the `PaymentSplitter` contract to Sepolia:
 
-```
-forge create --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY src/demos/PaymentSplitter/PaymentSplitter.sol:PaymentSplitter  # deployed on 0xc56Ba0Ad041eb1d5F54d33A062f82a1D0f091F92
-```
+   ```
+   forge create --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY src/demos/PaymentSplitter/PaymentSplitter.sol:PaymentSplitter  # deployed on 0xc56Ba0Ad041eb1d5F54d33A062f82a1D0f091F92
+   ```
 
-Grab the PaymentSplitter contract address and put it in this environment variable: $ORIGIN__ADDR.
+2. Assign the deployment address to the environment variable `ORIGIN_ADDR`.
 
-Assign the deployment address to the environment variable ORIGIN_ADDR.
+3. Deploy the Reactive contract, configuring it to send callbacks to `ORIGIN_ADDR`:
 
-Now deploy the contract to REACTIVE NETWORK. Here 
-finally deploy the reactive contract, configuring it to send callbacks
-to `ORIGIN_ADDR`.
+   ```
+   forge create --rpc-url $REACTIVE_RPC --private-key $REACTIVE_PRIVATE_KEY src/demos/PaymentSplitter/ListenerReactive.sol:ListenerReactive --constructor-args $SYSTEM_CONTRACT_ADDR $ORIGIN_ADDR # deployed to 0x0063b71A346a4fDd5a7DbFa443eDBfcC09740Cd2
+   ```
 
-```
-forge create --rpc-url $REACTIVE_RPC --private-key $REACTIVE_PRIVATE_KEY src/demos/PaymentSplitter/ListenerReactive.sol:ListenerReactive --constructor-args $SYSTEM_CONTRACT_ADDR $ORIGIN_ADDR # deployed to 0x0063b71A346a4fDd5a7DbFa443eDBfcC09740Cd2
-```
+## Testing the Workflow
 
-## Testing the workflow
-
-Test the whole setup by sending ETH on contract address:
+Test the whole setup by sending ETH to the contract address:
 
 ```
 sample tx: https://sepolia.etherscan.io/tx/0xa559b75666810ce04c592f883303211f21e585b46a27eb2d400615b50d0865cc
-
 ```
 
-After a few moments its picked up by the ReactVM and it calls the contract on dest chain, and the funds are distributed through the callback. Reactive and Sepolia transaction hashes are below.
-
+After a few moments, the transaction is picked up by the ReactVM, and it calls the contract on the destination chain. The funds are then distributed through the callback. The Reactive and Sepolia transaction hashes are provided below:
 
 ```
 https://kopli.reactscan.net/rvm/0x032e6aefe42d2baa57ee1198cbc04090fa17a639/27;
 https://sepolia.etherscan.io/tx/0xbbfb7d110b27f8000c8721dea28ece9e710b1835fe3e91baabb8da385a3c1ca8
 ```
 
+This project demonstrates a seamless payment splitting mechanism that can be used in various decentralized applications without incurring additional costs for the sender.
