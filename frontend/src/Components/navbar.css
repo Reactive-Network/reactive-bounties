@@ -1,0 +1,190 @@
+.gpt3__navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.1rem 6rem;
+  background-color: transparent;
+  /* background-color: #a3abbd; */
+}
+
+.gpt3__navbar-links {
+  /* z-index: 500; */
+
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+}
+
+.gpt3__navbar-links_logo {
+  /* z-index: 500; */
+
+  margin-right: 2rem;
+}
+
+.gpt3__navbar-links_logo img {
+  /* z-index: 500; */
+  width: 230px;
+  /* height: 16.02px; */
+}
+
+.gpt3__navbar-links_container {
+  display: flex;
+  width: 50%;
+  flex-direction: row;
+  justify-content: space-evenly;
+  text-decoration: none;
+  align-items: center;
+}
+
+.gpt3__navbar-links_container .rules {
+  text-decoration: none;
+}
+
+.gpt3__navbar-sign {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+a {
+  text-decoration: none;
+  color: #ffae7e;
+}
+
+.gpt3__navbar-links_container p,
+.gpt3__navbar-sign p,
+.gpt3__navbar-menu_container p {
+  color: #ffae7e;
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 25px;
+  text-transform: capitalize;
+
+  margin: 0 1rem;
+  cursor: pointer;
+}
+
+.navbar_my_nft_button {
+  background-color: black;
+  font-size: 17px;
+  margin-left: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: white;
+  padding: 7px 15px;
+  font-weight: 600;
+  border-radius: 6px;
+}
+
+.navbar_my_nft_button svg {
+  height: 18px;
+}
+
+/* .gpt3__navbar-sign button,
+.gpt3__navbar-menu_container button {
+  padding: 0.5rem 1rem;
+  color: #fff;
+  background: linear-gradient(
+    90deg,
+    rgba(254, 200, 114, 1) 13%,
+    rgba(255, 148, 136, 1) 93%
+  );
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 25px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 5px;
+} */
+
+.gpt3__navbar-menu {
+  margin-left: 1rem;
+  /* z-index: 500; */
+
+  display: none;
+  position: relative;
+}
+
+.gpt3__navbar-menu svg {
+  cursor: pointer;
+}
+
+.gpt3__navbar-menu_container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  flex-direction: column;
+
+  text-align: end;
+  background: var(--color-footer);
+  padding: 1rem;
+  position: absolute;
+  right: 0;
+  top: 40px;
+  margin-top: 1rem;
+  min-width: 210px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+.navbar_my_nft_button_add {
+  background-color: black;
+  font-size: 17px;
+  margin-left: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: white;
+  padding: 7px 15px;
+  font-weight: 600;
+  border-radius: 6px;
+}
+
+.gpt3__navbar-menu_container p {
+  margin: 1rem 0;
+}
+
+.gpt3__navbar-menu_container-links-sign {
+  display: none;
+}
+
+@media screen and (max-width: 1050px) {
+  .gpt3__navbar-links_container {
+    display: none;
+  }
+
+  .gpt3__navbar-menu {
+    display: flex;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .gpt3__navbar {
+    padding: 2rem 4rem;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .gpt3__navbar {
+    padding: 2rem;
+  }
+
+  .gpt3__navbar-sign {
+    display: none;
+  }
+
+  .gpt3__navbar-menu_container {
+    top: 20px;
+  }
+
+  .gpt3__navbar-menu_container-links-sign {
+    display: block;
+  }
+}
