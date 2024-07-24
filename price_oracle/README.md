@@ -157,6 +157,13 @@ Example parameters:
 ## Additional Resources
 - [Chainlink Fulfilling Requests Tutorial ](https://docs.chain.link/docs)
 
+## Deployment Addresses
+
+### Sepolia Network
+- **Current Operator Address**: `0x0E9F7697bdd7D16268De7a882A377A0aFEC50Cff`
+- **Current PriceOracle Address**: `0x1cC0B5AD859842d9a715207358Cd763F598B9E49`
+
+
 
 
 
