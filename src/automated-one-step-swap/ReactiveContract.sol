@@ -95,5 +95,3 @@ contract ReactiveContract is IReactive {
         service.unsubscribe(SEPOLIA_CHAIN_ID, _contract, topic_0, REACTIVE_IGNORE, REACTIVE_IGNORE, REACTIVE_IGNORE);
     }
 }
-
-// CURRENT: 0xB1D1B5D5BC1AF2cC79F769aaEee3324D2402d4c6
