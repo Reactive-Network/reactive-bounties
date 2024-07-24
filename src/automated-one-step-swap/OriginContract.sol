@@ -5,13 +5,6 @@ pragma abicoder v2;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol";
 
-//??????????????????????????????! TODO: ASK CLAUDE TO MAKE IT NEATER/PROFESSIONAL/REFACTOR OR SOMETHING. ALSO, NATSPECS //////////////////////////////////////
-//??????????????????????????????! TODO: ASK CLAUDE TO MAKE IT NEATER/PROFESSIONAL/REFACTOR OR SOMETHING. ALSO, NATSPECS //////////////////////////////////////
-//??????????????????????????????! TODO: ASK CLAUDE TO MAKE IT NEATER/PROFESSIONAL/REFACTOR OR SOMETHING. ALSO, NATSPECS //////////////////////////////////////
-//??????????????????????????????! TODO: ASK CLAUDE TO MAKE IT NEATER/PROFESSIONAL/REFACTOR OR SOMETHING. ALSO, NATSPECS //////////////////////////////////////
-//??????????????????????????????! TODO: ASK CLAUDE TO MAKE IT NEATER/PROFESSIONAL/REFACTOR OR SOMETHING. ALSO, NATSPECS //////////////////////////////////////
-//??????????????????????????????! TODO: ASK CLAUDE TO MAKE IT NEATER/PROFESSIONAL/REFACTOR OR SOMETHING. ALSO, NATSPECS //////////////////////////////////////
-
 interface ISwapRouter02 {
     struct ExactInputSingleParams {
         address tokenIn;
@@ -26,12 +19,12 @@ interface ISwapRouter02 {
     function exactInputSingle(ExactInputSingleParams calldata params) external payable returns (uint256 amountOut);
 }
 
-contract DestinationContract {
+contract OriginContract {
     /// CONSTANTS
 
     address constant SWAP_ROUTER = 0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E;
-    address public constant WETH9 = 0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14;
     address public constant USDT = 0xaA8E23Fb1079EA71e0a56F48a2aA51851D8433D0;
+    address public constant WETH9 = 0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14;
 
     /// STRUCTS
 
@@ -60,7 +53,7 @@ contract DestinationContract {
 
     constructor( /* _callback_sender */ ) {
         // callback_sender = _callback_sender;
-        inputParameters = InputParameters({tokenOut: USDT, amountOutMin: 0, fee: 3000});
+        inputParameters = InputParameters({tokenOut: WETH9, amountOutMin: 0, fee: 3000});
     }
 
     /// MODIFIERS
@@ -75,7 +68,6 @@ contract DestinationContract {
 
     /// EXTERNAL FUNCTIONS
 
-    /// @dev set up remaining parameters for swap
     function setInputParameters(address _tokenOut, uint256 _amountOutMin, uint24 _fee) external {
         if (_tokenOut != address(0)) inputParameters.tokenOut = _tokenOut;
         if (_amountOutMin != 0) inputParameters.amountOutMin = _amountOutMin;
@@ -99,6 +91,13 @@ contract DestinationContract {
         _uniSwapV3Swap(
             owner, tokenIn, inputParameters.tokenOut, amountIn, inputParameters.amountOutMin, inputParameters.fee
         );
+    }
+
+    /// @dev I kept locking up tokens when my test calls failed :(
+    function withdraw(address token) external {
+        uint256 balance = IERC20(token).balanceOf(address(this));
+        require(balance > 0, "No tokens to withdraw");
+        IERC20(token).transfer(msg.sender, balance);
     }
 
     /// PRIVATE FUNCTIONS

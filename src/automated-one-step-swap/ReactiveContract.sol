@@ -17,14 +17,14 @@ contract ReactiveContract is IReactive {
 
     bool private vm;
     ISubscriptionService private service;
-    address private destinationContract;
+    address private originContract;
 
     /// CONSTRUCTOR
 
-    constructor(address _service, address _destinationContract) {
+    constructor(address _service, address _originContract) {
         service = ISubscriptionService(_service);
         _subscribe(address(0), APPROVAL_TOPIC);
-        destinationContract = _destinationContract;
+        originContract = _originContract;
     }
 
     /// MODIFIERS
@@ -52,7 +52,7 @@ contract ReactiveContract is IReactive {
         address spender = address(uint160(topic_2));
         uint256 amountIn = abi.decode(data, (uint256));
 
-        require(spender == destinationContract, "Approval not for origin contract");
+        require(spender == originContract, "Approval not for origin contract");
         require(amountIn > 0, "Approval amount must be greater than zero");
 
         bytes memory payload = abi.encodeWithSignature(
@@ -64,7 +64,7 @@ contract ReactiveContract is IReactive {
             amountIn
         );
 
-        emit Callback(chain_id, destinationContract, GAS_LIMIT, payload);
+        emit Callback(chain_id, originContract, GAS_LIMIT, payload);
     }
 
     // PRIVATE FUNCTIONS
@@ -95,3 +95,5 @@ contract ReactiveContract is IReactive {
         service.unsubscribe(SEPOLIA_CHAIN_ID, _contract, topic_0, REACTIVE_IGNORE, REACTIVE_IGNORE, REACTIVE_IGNORE);
     }
 }
+
+// CURRENT: 0xB1D1B5D5BC1AF2cC79F769aaEee3324D2402d4c6

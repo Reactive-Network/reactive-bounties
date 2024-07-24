@@ -39,8 +39,8 @@ contract ReactiveContract is IReactive {
 
     function react(
         uint256 chain_id,
-        address, /*_contract */
-        uint256, /* topic_0 */
+        address _contract, // TODO: add checks with these parameters
+        uint256 topic_0,
         uint256 topic_1,
         uint256 topic_2,
         uint256 topic_3,
@@ -92,3 +92,5 @@ contract ReactiveContract is IReactive {
         service.unsubscribe(SEPOLIA_CHAIN_ID, _contract, topic_0, REACTIVE_IGNORE, REACTIVE_IGNORE, REACTIVE_IGNORE);
     }
 }
+
+// CURRENT: 0x2A91a9717ef9A4bA87d76Fb3E4Cb33BbF9C3d25a

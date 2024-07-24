@@ -47,9 +47,7 @@ There are three main contracts involved:
 * Destination chain contract 
     - Deployed on Sepolia
 
-A general work flow may go like this:
-
-User calls `approve` function on Origin contract (ERC-20 token) --> RSC picks up this event and calls `callback` function on Destination contract --> Destination contract calls the `_uniSwapV3Swap` function to execute the swap --> WAGMI
+A general work flow diagram goes like this:
 
 ```mermaid
 %%{ init: { 'flowchart': { 'curve': 'basis' } } }%%
@@ -70,7 +68,6 @@ flowchart LR
     Approve -->|2. Emits event| React
     React -->|3. Triggers| Callback
     Callback -->|4. Executes| UniswapSwap
-Pseudocode of flow diagram:
 ```
 
 >*The goal is to complete the whole swap process with just one function call*
