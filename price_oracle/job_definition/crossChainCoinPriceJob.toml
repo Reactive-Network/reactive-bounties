@@ -1,0 +1,34 @@
+type = "directrequest"
+schemaVersion = 1
+name = "Get-Cross-Chain-Price"
+forwardingAllowed = false
+maxTaskDuration = "0s"
+contractAddress = "0x0E9F7697bdd7D16268De7a882A377A0aFEC50Cff"
+evmChainID = "11155111"
+minIncomingConfirmations = 0
+minContractPaymentLinkJuels = "0"
+observationSource = """
+    decode_log   [type="ethabidecodelog"
+                  abi="OracleRequest(bytes32 indexed specId, address requester, bytes32 requestId, uint256 payment, address callbackAddr, bytes4 callbackFunctionId, uint256 cancelExpiration, uint256 dataVersion, bytes data)"
+                  data="$(jobRun.logData)"
+                  topics="$(jobRun.logTopics)"]
+
+    decode_cbor  [type="cborparse" data="$(decode_log.data)"]
+
+    fetch [type="bridge" name="cross_chain_price"
+           requestData="{ \\"chain1Contract\\": $(decode_cbor.chain1Contract), \\"chain1RPC\\": $(decode_cbor.chain1RPC), \\"chain2Contract\\": $(decode_cbor.chain2Contract), \\"chain2RPC\\": $(decode_cbor.chain2RPC), \\"chain3Contract\\": $(decode_cbor.chain3Contract), \\"chain3RPC\\": $(decode_cbor.chain3RPC)}"]
+
+    parse_priceArray [type="jsonparse" path="priceArray" data="$(fetch)"]
+
+    parse_chainArray [type="jsonparse" path="chainArray" data="$(fetch)"]
+
+    encode_data  [type="ethabiencode" abi="(bytes32 requestId, uint256[3] memory prices, uint256[3] memory chains)" data="{ \\"requestId\\": $(decode_log.requestId), \\"prices\\": $(parse_priceArray), \\"chains\\": $(parse_chainArray) }"]
+
+    encode_tx    [type="ethabiencode"
+                  abi="fulfillOracleRequest2(bytes32 requestId, uint256 payment, address callbackAddress, bytes4 callbackFunctionId, uint256 expiration, bytes calldata data)"
+                  data="{\\"requestId\\": $(decode_log.requestId), \\"payment\\":   $(decode_log.payment), \\"callbackAddress\\": $(decode_log.callbackAddr), \\"callbackFunctionId\\": $(decode_log.callbackFunctionId), \\"expiration\\": $(decode_log.cancelExpiration), \\"data\\": $(encode_data)}"]
+
+    submit_tx    [type="ethtx" to="0x0E9F7697bdd7D16268De7a882A377A0aFEC50Cff" data="$(encode_tx)"]
+
+    decode_log -> decode_cbor -> fetch -> parse_priceArray -> parse_chainArray -> encode_data -> encode_tx -> submit_tx
+"""

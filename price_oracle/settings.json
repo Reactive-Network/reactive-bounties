@@ -1,0 +1,8 @@
+{
+    "LINK_address": "0x779877A7B0D9E8603169DdbD7836e478b4624789", // Sepolia
+    "operatorAddress": "",
+    "REQUEST_COIN_PRICE_JOB": "",
+    "REQUEST_CROSS_CHAIN_COIN_PRICE_JOB": "",
+    "oracleAddress": "",
+    "OWNER": ""
+}
