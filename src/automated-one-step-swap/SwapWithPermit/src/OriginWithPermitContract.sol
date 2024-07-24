@@ -13,7 +13,6 @@ import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol";
  * the swap transaction in one step.  Refer to the other implementation outside of
  * this Permit folder for the one-step swap without the IERC20Permit interface.
  */
- 
 interface ISwapRouter02 {
     struct ExactInputSingleParams {
         address tokenIn;
@@ -28,7 +27,7 @@ interface ISwapRouter02 {
     function exactInputSingle(ExactInputSingleParams calldata params) external payable returns (uint256 amountOut);
 }
 
-contract OriginContractWithPermit {
+contract OriginWithPermitContract {
     /// CONSTANTS
 
     address constant SWAP_ROUTER = 0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E;
@@ -58,11 +57,7 @@ contract OriginContractWithPermit {
     );
 
     event UniSwapV3Swap(
-        address indexed user, 
-        address indexed tokenIn, 
-        address indexed tokenOut, 
-        uint256 amountIn, 
-        uint256 amountOut
+        address indexed user, address indexed tokenIn, address indexed tokenOut, uint256 amountIn, uint256 amountOut
     );
 
     /// CONSTRUCTOR
@@ -143,7 +138,7 @@ contract OriginContractWithPermit {
             fee: fee,
             recipient: user,
             amountIn: amountIn,
-            amountOutMinimum: 0, // naively set to zero for demo purposes
+            amountOutMinimum: amountOutMin, // naively set to zero for demo purposes
             sqrtPriceLimitX96: 0 // naively set to zero for demo purposes
         });
 

@@ -12,12 +12,12 @@ async function main() {
   const chainId = (await provider.getNetwork()).chainId;
 
   // Create contract instances
-  const originContract = new ethers.Contract(process.env.ORIGIN_WITH_PERMIT_ADDRESS, CONTRACT_ABI, signer);
-  const tokenInContract = new ethers.Contract(process.env.TOKEN_IN_ADDRESS, TOKEN_ABI, provider);
+  const originContract = new ethers.Contract(process.env.ORIGIN_WITH_PERMIT_CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+  const tokenInContract = new ethers.Contract(process.env.TOKEN_IN_WITH_PERMIT_ADDRESS, TOKEN_ABI, provider);
 
   // Prepare parameters
   const ownerAddress = await signer.getAddress();
-  const amountIn = process.env.AMOUNT_IN;
+  const amountIn = process.env.AMOUNT_IN_WITH_PERMIT;
   const amountOutMin = process.env.AMOUNT_OUT_MIN;
   const deadline = Math.floor(Date.now() / 1000) + 3600; // 1 hour from now
   const tokenName = await tokenInContract.name();
@@ -25,9 +25,9 @@ async function main() {
 
   console.log('Generating permit signature...');
   const sig = await generatePermitSignature({
-    tokenAddress: process.env.TOKEN_IN_ADDRESS,
+    tokenAddress: process.env.TOKEN_IN_WITH_PERMIT_ADDRESS,
     ownerAddress,
-    spenderAddress: process.env.ORIGIN_WITH_PERMIT_ADDRESS,
+    spenderAddress: process.env.ORIGIN_WITH_PERMIT_CONTRACT_ADDRESS,
     value: amountIn,
     deadline,
     nonce,
@@ -40,8 +40,8 @@ async function main() {
   console.log('Calling Origin Contract...');
   const tx = await callApproveSwapWithPermit({
     contract: originContract,
-    tokenIn: process.env.TOKEN_IN_ADDRESS,
-    tokenOut: process.env.TOKEN_OUT_ADDRESS,
+    tokenIn: process.env.TOKEN_IN_WITH_PERMIT_ADDRESS,
+    tokenOut: process.env.TOKEN_OUT_WITH_PERMIT_ADDRESS,
     amountIn,
     amountOutMin,
     fee: parseInt(process.env.FEE),

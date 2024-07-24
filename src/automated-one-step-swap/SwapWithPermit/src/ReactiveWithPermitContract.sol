@@ -5,7 +5,7 @@ pragma abicoder v2;
 import "../../../Interfaces/IReactive.sol";
 import "../../../Interfaces/ISubscriptionService.sol";
 
-contract ReactiveContract is IReactive {
+contract ReactiveWithPermitContract is IReactive {
     /// CONSTANTS
 
     uint256 private constant REACTIVE_IGNORE = 0xa65f96fc951c35ead38878e0f0b7a3c744a6f5ccc1476b313353ce31712313ad;
@@ -39,8 +39,8 @@ contract ReactiveContract is IReactive {
 
     function react(
         uint256 chain_id,
-        address _contract, // TODO: add checks with these parameters
-        uint256 topic_0,
+        address, /*_contract */
+        uint256, /* topic_0 */
         uint256 topic_1,
         uint256 topic_2,
         uint256 topic_3,
