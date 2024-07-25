@@ -65,6 +65,7 @@ For this demonstration, the contract is implemented as `ReactiveWithPermitContra
 - Make sure you have ```node``` installed
 - Install the required dependencies:
     ```bash
+    cd src/automated-one-step-swap/SwapWithPermit/
     npm install dotenv ethers 
     ```
 
@@ -86,7 +87,7 @@ Add the appropriate keys, addresses and endpoints to these environment variables
 * `SYSTEM_CONTRACT_ADDR`
 * `TOKEN_IN_WITH_PERMIT_ADDRESS` - the token you want to **sell**
 * `TOKEN_OUT_WITH_PERMIT_ADDRESS` - the token you want to **buy**
-* `AMOUNT_IN` - how much you want to sell
+* `AMOUNT_IN_WITH_PERMIT` - how much you want to sell
 
 <br />
 
@@ -165,6 +166,9 @@ USDT for WETH9 TX hash: 0xe027eb1674db750f413b57601201475c30282c6f90eb39d5f72d4f
 ## TROUBLESHOOTING
 - Javascript is a pain.  Make sure your dependencies are updated.
     - Ethers.js should be higher than version 6.0.0
+
+- Javascript has trouble with big numbers sometimes
+    - If you are using a large enough number in `AMOUNT_IN`, make sure you use a `parse` function to parse it for JS to use correctly
 
 - Don't forget you have to pay gas
     - Make sure you have SepoliaETH in your Sepolia address
