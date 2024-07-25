@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
+import "lib/openzeppelin-contracts-upgradeable/contracts/proxy/utils/Initializable.sol";
+import "lib/openzeppelin-contracts-upgradeable/contracts/access/OwnableUpgradeable.sol";
+import "lib/openzeppelin-contracts-upgradeable/contracts/utils/ReentrancyGuardUpgradeable.sol";
+import "lib/openzeppelin-contracts-upgradeable/contracts/utils/PausableUpgradeable.sol";
+import "lib/openzeppelin-contracts-upgradeable/contracts/token/ERC20/ERC20Upgradeable.sol";
 
-contract PredictionMarket is Initializable, OwnableUpgradeable, ReentrancyGuardUpgradeable, PausableUpgradeable, ERC20Upgradeable {
+contract AutomatedPredictionMarket is Initializable, OwnableUpgradeable, ReentrancyGuardUpgradeable, PausableUpgradeable, ERC20Upgradeable {
 
     struct Prediction {
         string description;
@@ -84,7 +84,7 @@ contract PredictionMarket is Initializable, OwnableUpgradeable, ReentrancyGuardU
         __Ownable_init(msg.sender);
         __ReentrancyGuard_init();
         __Pausable_init();
-        _ERC20_init(name, symbol_);
+        __ERC20_init(name_, symbol_);
 
         minBet = _minBet;
         require(_feePercentage <= MAX_FEE_PERCENTAGE, "Fee too high");
