@@ -144,7 +144,7 @@ This should result in a callback transaction signaling about prediction winner t
 4. Oracle backend sends initial transaction with price to PriceOracle.sol: `0x45f5f86a557242b99071da87ddce49be799bd67164fdeeb30594fd73f76557da`
 5. RVM sends transaction to relay (Kopli Testnet transaction): `0x7b402d9723b7fb8627f2587b37a17c5b00949531a1a4ba0fd40729a9900abbac`
 
-### Round 1 – winner UP
+**Round 1 – winner UP:**
 6. Participant One predicts "UP" and sends 0.001 SepETH to PredictionMarket.sol: `0xc4ce2e2e970707045f9ffb67bb067b3b740a7bde4b0f67c65f0f34801729a800`
 7. Participant Two predicts "DOWN" and sends 0.001 SepETH to PredictionMarket.sol: `0xa36aa23e0571c74f814f299f7f684e2eea9c1f93419ce3d55cfbbdf507fa701e`
 8. Oracle backend sends transaction with price update to PriceOracle.sol: `0x08c35076feadfd47dfde9040345bbb7d5eb0edcdbf129504239286b09aad34f1`
@@ -152,7 +152,7 @@ This should result in a callback transaction signaling about prediction winner t
 10. Reactive Sepolia Contract sends callback to PredictionMarket.sol: `0x91a3b52e12df01b21e86893cf78c92bb081ef4051815dcd023a9146f39023238`
 11. Participant One receives 0.002 SepETH from PredictionMarket.sol: `0x91a3b52e12df01b21e86893cf78c92bb081ef4051815dcd023a9146f39023238`
 
-### Round 1 – winner DOWN
+**Round 2 – winner DOWN:**
 12. Participant One predicts "UP" and sends 0.001 SepETH to PredictionMarket.sol: `0x9ca668b7c32ee608c39b69f8de60133f379e57a5f45ab92cb23881ccbe726236`
 13. Participant Two predicts "DOWN" and sends 0.001 SepETH to PredictionMarket.sol: `0x08de58692880941c6c41ffef7982faf8bf868c93ab2124818af417930686453e`
 14. Oracle backend sends transaction with price update to PriceOracle.sol: `0x3efa493ebc9ade688d94661282a0bdc7e30b3a72e03b09a2d0cfe28c851a909b`
