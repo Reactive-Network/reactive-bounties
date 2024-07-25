@@ -2,7 +2,7 @@
 
 pragma solidity >=0.8.0;
 
-import 'IReactive.sol';
+import './IReactive.sol';
 import './ISubscriptionService.sol';
 
 contract ListenerReactive is IReactive {
