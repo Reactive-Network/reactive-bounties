@@ -33,15 +33,14 @@ export SYSTEM_CONTRACT_ADDR="<YOUR_SYSTEM_CONTRACT_ADDR>"
 1. Deploy the `PredictionMarket` contract to Sepolia:
 
    ```
-   forge create --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY src/demos/PredictionMarket/PredictionMarket.sol:PredictionMarket  # deployed on <0x5052DEE738Fd127fD75719Ff53D0797FCCA8b3f9>
+   forge create --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY src/demos/Prediction Market/contracts/PM.sol:PredictionMarket  # deployed on <0x5052DEE738Fd127fD75719Ff53D0797FCCA8b3f9>
    ```
 
-2. Assign the deployment address to the environment variable `ORACLE_ADDR`.
 
-3. Deploy the `ReactiveListener` contract, configuring it to send callbacks to the `PredictionMarket` contract:
+2. Deploy the `ReactiveListener` contract, configuring it to send callbacks to the `PredictionMarket` contract:
 
    ```
-   forge create --rpc-url $REACTIVE_RPC --private-key $REACTIVE_PRIVATE_KEY src/demos/PredictionMarket/ReactiveListener.sol:ReactiveListener --constructor-args $SYSTEM_CONTRACT_ADDR $ORACLE_ADDR # deployed to <0xAeAd482f1a974B6b59D268b141d173Faf488FE93>
+   forge create --rpc-url $REACTIVE_RPC --private-key $REACTIVE_PRIVATE_KEY src/demos/Prediction Market/contracts/ReactiveListener.sol:ReactiveListener --constructor-args $SYSTEM_CONTRACT_ADDR $ORACLE_ADDR # deployed to <0xAeAd482f1a974B6b59D268b141d173Faf488FE93>
    ```
 
 ## Testing the Workflow
