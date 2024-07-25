@@ -15,6 +15,7 @@ contract PaymentSplitter {
     constructor() {
         callbackSender = 0x356bc9241f9b004323fE0Fe75C3d75DD946cF15c;
         dev = 0x84d449C94499fF856FAaE8aE0A732c0d2E243848;
+        owner=msg.sender;
     }
 
     modifier onlyOwner() {
