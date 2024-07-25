@@ -187,7 +187,7 @@ export DESTINATION_ADDR=0xd3e5df617898d2f9eBBCbc4C5174B83BB61d224A
 Deploy the `ERC6551_Reactive` (reactive contract), configuring it to listen to `ORIGIN_ADDR` and to send callbacks to `DESTINATION_ADDR`.
 
 ```bash
-forge create --rpc-url $REACTIVE_RPC --private-key $SEPOLIA_ERC6551ADMIN_PRIVATE_KEY src/demos/erc6551/ERC6551_Reactive.sol:ERC6551_Reactive --constructor-args $SYSTEM_CONTRACT_ADDR $ORIGIN_ADDR $DESTINATION_ADDR [11155111] --legacy 
+forge create --rpc-url $REACTIVE_RPC --private-key $REACTIVE_PRIVATE_KEY src/demos/erc6551/ERC6551_Reactive.sol:ERC6551_Reactive --constructor-args $SYSTEM_CONTRACT_ADDR $ORIGIN_ADDR $DESTINATION_ADDR [11155111] --legacy 
 ```
 
 Proof of Output :
