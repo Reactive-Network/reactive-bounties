@@ -4,7 +4,6 @@ pragma solidity ^0.8.0;
 import "openzeppelin-contracts/contracts/access/Ownable.sol";
 import "openzeppelin-contracts/contracts/security/ReentrancyGuard.sol";
 import "openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
-import "chainlink-brownie-contracts/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
 contract CryptoInsurance is Ownable, ReentrancyGuard {
     enum InsuranceType { LOAN, THRESHOLD, SUDDEN_DROP }
