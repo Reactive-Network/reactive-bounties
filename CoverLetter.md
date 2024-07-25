@@ -47,7 +47,7 @@ export CALLBACK_SENDER_ADDR=
 export SUPPORTED_COINS=
 ```
 
-
+`forge install OpenZeppelin/openzeppelin-contracts`
 
 ### Step 1 : Create Multisig wallet
 
