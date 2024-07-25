@@ -24,8 +24,12 @@ contract PriceOracle is ChainlinkClient, ConfirmedOwner {
     }
 
     uint256 private requestPrice = (1 * LINK_DIVISIBILITY) / 10; // 0.1 Oracle token, amount to be paid for each request.
-    address public oracle; // Address of the Chainlink Operator.
-    mapping(uint => string) public requestTypeToJobID; // Mapping from request type to Chainlink node job ID.
+    address private oracle; // Address of the Chainlink Operator.
+    mapping(uint => string) private requestTypeToJobID; // Mapping from request type to Chainlink node job ID.
+    bool private  callback_sender;
+    mapping(address => bool) private callback_senders;
+    mapping(uint => mapping(address => uint)) public latestRSCPrice;
+
 
     /**
      * @dev Event emitted when a price request for a specific coin is made.
@@ -77,6 +81,18 @@ contract PriceOracle is ChainlinkClient, ConfirmedOwner {
         bytes32 indexed requestId
     );
 
+    /**
+     * @dev Emitted when the price is updated for a specific chain and token pair.
+     * @param chainId The ID of the blockchain network where the price is updated.
+     * @param pair The address of the token pair ChainLink oracle.
+     * @param price The updated price.
+     */
+    event PriceUpdated(
+        uint indexed chainId,
+        address indexed pair,
+        uint price
+    );
+
 
     /**
      * @dev Modifier to charge a fee in Oracle token for requests.
@@ -91,6 +107,18 @@ contract PriceOracle is ChainlinkClient, ConfirmedOwner {
     }
 
     /**
+     * @dev Modifier to allow access only if the caller is the reactive callback sender.
+     * Checks if the callback sender is set and if the caller is authorized.
+     */
+    modifier onlyReactive() {
+        // If the callback sender is set, ensure the caller is the callback sender
+        if (callback_sender) {
+            require(callback_senders[msg.sender], 'Unauthorized');
+        }
+        _;
+    }
+
+    /**
      * @dev Constructor to set the Oracle token and Operator addresses.
      * @param _oracleToken Address of the Oracle token.
      * @param _oracle Address of the Chainlink Operator.
@@ -99,6 +127,31 @@ contract PriceOracle is ChainlinkClient, ConfirmedOwner {
         _setChainlinkToken(_oracleToken);
         oracle = _oracle;
     }
+
+
+    /**
+     * @dev Updates the latest price by RSC for a given chain and pair, and emits a PriceUpdated event.
+     * @param _chainId The ID of the blockchain network.
+     * @param _pair The address of the token pair.
+     * @param _price The latest price to be recorded.
+     */
+    function feedPriceRSC(uint _chainId, address _pair, uint _price) external onlyReactive() {
+        
+        // Update the latest price for the given chain ID and token pair
+        latestRSCPrice[_chainId][_pair] = _price;
+
+        // Emit an event to signal that the price has been updated
+        emit PriceUpdated(
+            _chainId,
+            _pair,
+            _price
+        );
+    }
+
+
+
+
+    // ---------------------- THE PART RELATED TO CHAIN LINK NODE 
 
     /**
      * @dev Sets the request price in Oracle tokens.
@@ -116,7 +169,6 @@ contract PriceOracle is ChainlinkClient, ConfirmedOwner {
         require(_oracle != address(0), "Oracle address cannot be zero address");
         oracle = _oracle;
     }
-
 
     /**
      * @dev Sets the node job ID for a specific request type.
