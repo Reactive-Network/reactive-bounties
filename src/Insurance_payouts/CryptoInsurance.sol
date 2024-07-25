@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
-contract CryptoInsurance is Ownable{
+contract CryptoInsurance is Ownable,ReentrancyGuard{
     enum InsuranceType { LOAN, THRESHOLD, SUDDEN_DROP }
     
     struct AssetInfo {

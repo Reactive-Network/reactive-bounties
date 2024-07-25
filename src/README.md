@@ -1,45 +1,48 @@
-# Cover Letter: Crypto Insurance Reactive Smart Contract Bounty Application
+# Cover Letter: Reactive Smart Contract Bounty Application
 
-Dear Reactive Smart Contract Bounty Team,
+Dear Bounty Program Organizers,
 
-I am excited to submit my application for the Reactive Smart Contract bounty program. I have implemented a Crypto Insurance system that leverages the power of Reactive Smart Contracts to provide a decentralized, efficient, and automated insurance solution for cryptocurrency assets.
+I am excited to submit my application for the Reactive Smart Contract bounty. I have developed a CryptoInsurance system that leverages the power of Reactive Smart Contracts to enable efficient cross-chain interactions for automated price checking and claim processing.
 
 ## Bounty Application Details
 
 - *Bounty*: Reactive Smart Contract Implementation
-- *Use Case*: Crypto Insurance with Automated Price Checking and Claim Processing
 - *Contact Information*:
-  - Name: Harsh Kasana
+  - Name: Harsh kasana
   - Email: harshkasana05@gmail.com
-  - GitHub: harshkas4na
 
 ## Project Overview
 
-The implemented system consists of two main components:
-
-1. A CryptoInsurance contract deployed on Sepolia testnet
-2. An InsuranceReactive contract deployed on Reactive testnet
-
-These contracts work together to offer various types of crypto insurance policies, automate price checking, and process claims based on predefined conditions.
+My implementation focuses on creating a crypto insurance platform where users can insure against price fluctuations of various crypto assets. The system uses a Reactive Smart Contract to automate price checking and potential claim processing across chains. This setup demonstrates the power of Reactive in facilitating cross-chain operations and automating complex workflows in the DeFi insurance space.
 
 ## Key Features
 
-- Support for multiple insurance types (Loan, Threshold, Sudden Drop)
-- Automated price checking using Chainlink price feeds
-- Decentralized claim processing
-- Integration with a meme coin reward system for price check triggers
+1. Fully functional crypto insurance platform on Sepolia testnet
+2. Automated price checking triggered by Reactive Smart Contract
+3. Cross-chain interaction emulation between Sepolia and Reactive testnets
+4. Support for multiple insurance types: Loan, Threshold, and Sudden Drop
 
-## Why Reactive Smart Contracts?
+## Technical Implementation
 
-Reactive Smart Contracts solve several critical problems in this use case:
+The project consists of two main contracts:
 
-1. *Efficient Event Monitoring*: The Reactive contract efficiently monitors events on Sepolia without constant polling, reducing gas costs and improving responsiveness.
-2. *Cross-Chain Communication*: It enables seamless interaction between the Sepolia and Reactive networks, allowing for complex logic execution without direct communication between Origin and Destination contracts.
-3. *Automated Triggering*: Price checks and claim processing can be automatically triggered without relying on centralized systems or frequent manual interactions.
+1. CryptoInsurance.sol: Deployed on Sepolia, handles the core insurance functionality.
+2. InsuranceReactive.sol: Deployed on Reactive, listens for events from Sepolia and triggers callbacks.
 
-These features would be difficult or impossible to achieve with traditional smart contracts alone.
+The Reactive contract subscribes to the TriggerPriceCheck event from the Sepolia contract. When a price check is triggered, it automatically initiates a callback to check all price changes, showcasing the power of Reactive in automating cross-chain processes.
 
-Thank you for considering my application. I look forward to your feedback and the opportunity to contribute to the Reactive Smart Contract ecosystem.
+## Compliance with Requirements
+
+I have ensured that my application meets all the specified requirements, including:
+
+- Proper implementation of the use case
+- Inclusion of all necessary contracts, deploy scripts, and instructions
+- Deployment of contracts on both Sepolia and Reactive testnets
+- Detailed workflow description and transaction hashes for each step
+- Emulation of cross-chain functionality as specified
+
+Thank you for considering my application. I look forward to your feedback and the opportunity to contribute to the Reactive ecosystem.
 
 Sincerely,
-Harsh kasana
+Harsh Kasana
+
