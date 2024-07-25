@@ -51,7 +51,7 @@ def monitor_price_update():
     while True:
         api_params = {
             "ids": f"{API_DATA_CRYPTOCURRENCY}", # Specify cryptocurrency
-            "vs_currencies": f"{API_DATA_VS_CURRENCY}" # Specify  currency for conversion
+            "vs_currencies": f"{API_DATA_VS_CURRENCY}" # Specify currency for conversion
         }
 
         api_response = requests.get(API_DATA_SOURCE, params=api_params)
@@ -59,7 +59,7 @@ def monitor_price_update():
 
         timestamp = int(time.time())
         price = api_data[f'{API_DATA_CRYPTOCURRENCY}'][f'{API_DATA_VS_CURRENCY}']
-        print(f"\nNew price update received!")
+        print(f"New price update received!")
         print(f"timestamp: {timestamp}")
         print(f"{API_DATA_CRYPTOCURRENCY}/{API_DATA_VS_CURRENCY}: {price}\n")
 
@@ -82,6 +82,7 @@ def monitor_price_update():
         
         # Update price with delay of round duration
         countdown(ROUND_DURATION)
+        print()
 
 def countdown(seconds):
     for i in range(seconds, 0, -1):
