@@ -8,7 +8,7 @@
 
 ## Contact Me :
 
-linkedin : [link](https://www.linkedin.com/in/aditya-chaurasia-10998622b/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app)
+linkedin : [Aditya Chaurasia](https://www.linkedin.com/in/aditya-chaurasia-10998622b/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app)
 
 
 ## Overview
