@@ -122,6 +122,16 @@ cast send $INSURANCE_CONTRACT_ADDR "addSupportedAsset(address,address,uint256)" 
 - This creates a new insurance policy for the specified asset
 - Transaction hash: 
 
+### Step 4: Create an insurance policy
+
+- Call createPolicy function on the CryptoInsurance contract
+
+```sh
+Copycast send $INSURANCE_CONTRACT_ADDR "createPolicy(address,uint8,uint256,uint256)" $ASSET_ADDRESS 0 $COVERAGE_AMOUNT $TRIGGER_PRICE --value $PREMIUM_AMOUNT --rpc-url $SEPOLIA_RPC --private-key $SEPOLIA_PRIVATE_KEY
+```
+- This creates a new insurance policy for the specified asset
+- Transaction hash: [Insert actual transaction hash here]
+
 ### Step 5: Trigger a price check
 
 - Call triggerPriceCheck function on the CryptoInsurance contract
@@ -131,13 +141,13 @@ cast send $INSURANCE_CONTRACT_ADDR "triggerPriceCheck()" --rpc-url $SEPOLIA_RPC 
 - This emits a TriggerPriceCheck event
 - Transaction hashes: 
 
-Step 6: Automated price check and claim processing
+### Step 6: Automated price check and claim processing
 
 The InsuranceReactive contract detects the TriggerPriceCheck event
 It automatically calls checkAllPriceChanges on the CryptoInsurance contract
 If any claims are valid, they are automatically processed
 
-Step 7: Claim meme coin rewards (if applicable)
+### Step 7: Claim meme coin rewards (if applicable)
 
 - Call claimMemeReward function on the CryptoInsurance contract
 ```sh
@@ -145,3 +155,9 @@ cast send $INSURANCE_CONTRACT_ADDR "claimMemeReward()" --rpc-url $SEPOLIA_RPC --
 ```
 - This claims any accumulated meme coin rewards for the caller
 - Transaction hash: [Insert actual transaction hash here]
+
+
+## Notes
+
+- The "cross-chain" functionality is emulated using the Sepolia testnet for both Origin (CryptoInsurance) and Destination contracts, with communication facilitated through the Reactive Smart Contract.
+- All interactions with the Reactive network are automatic and don't produce traditional transaction hashes.
