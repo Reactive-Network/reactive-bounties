@@ -5,7 +5,7 @@ pragma solidity >=0.8.0;
 import './IReactive.sol';
 import './ISubscriptionService.sol';
 
-contract ListenerReactive is IReactive {
+contract ReactiveListener is IReactive {
     uint256 private constant REACTIVE_IGNORE = 0xa65f96fc951c35ead38878e0f0b7a3c744a6f5ccc1476b313353ce31712313ad;
 
     uint256 private constant SEPOLIA_CHAIN_ID = 11155111;
