@@ -11,7 +11,7 @@ contract ListenerReactive is IReactive {
     uint256 private constant SEPOLIA_CHAIN_ID = 11155111;
     uint256 private constant REACTIVE_CHAIN_ID = 0x512578;
 
-    uint256 private constant DISTRIBUTION_TOPIC_0 = 0xcff5d694e6a309557fa48081000c42ece1f65fba8fbfdefdefc4e6c7108d55b1;
+    uint256 private constant DISTRIBUTION_TOPIC_0 = 0xca31034aed46dfc6c590207d150d78bf0ec287c9d8fc09c72717dc274c7787e8;
 
     uint64 private constant CALLBACK_GAS_LIMIT = 1000000;
 
@@ -102,8 +102,8 @@ contract ListenerReactive is IReactive {
         uint256  /* chain_id */,
         address /* _contract */,
         uint256 /* topic_0 */,
-        uint256 _topic1 /* topic_1 */,
-        uint256 /* topic_2 */,
+        uint256 topic_1,
+        uint256,
         uint256 /* topic_3 */,
         bytes calldata /* data */,
         uint256 /* block_number */,
@@ -112,8 +112,8 @@ contract ListenerReactive is IReactive {
 
 
         bytes memory payload = abi.encodeWithSignature(
-            "dispense(uint256)",
-            _topic1
+            "payout(uint256)",
+            topic_1
         );
         emit Callback(SEPOLIA_CHAIN_ID, l1, CALLBACK_GAS_LIMIT, payload);
     }
