@@ -4,7 +4,7 @@ My contact e-mail: ncg8j6dz@proton.me
 
 ## Problem Statement and Proposed Solution
 
-This proposed solution for Automated Prediction Market with Reactive Network uses EVM event as mean for Market Closure. Traditional Prediction Market usually involves direct transaction from oracle to smart contract which can be rather, especially if demanded frequency of updates is high. This problem can be addressed with Reactive Network, which allows to switch from costly L1 callbacks to relatively cheap L1 events.
+This proposed solution for Automated Prediction Market with Reactive Network uses EVM event as mean for Market Closure. Traditional Prediction Market usually involves direct transaction from oracle to smart contract which can be rather expensive, especially if demanded frequency of updates is high. This problem can be addressed with Reactive Network, which allows to switch from costly L1 callbacks to relatively cheap L1 events.
 
 Another advantage of Reactive Smart Contracts lies within their versatility for both already and to-be deployed oracles. If existing oracle emits valuable data as an event, than there is no need to redeploy it for casting callback in one particular smart contract. In he same way to-be deployed oracles can be developed with tailoring to Reactive Network and be much more reusable in various cases. That allows oracle developers to offer more competitive prices to consumer and simultaneously significantly increase their user base, which would be difficult or even impossible without use of RSC.
 
