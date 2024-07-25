@@ -2,7 +2,7 @@
 
 Dear Bounty Program Organizers,
 
-I am submitting my application for the Reactive Smart Contract bounty, implementing the Multi-Party Wallet use case. My submission includes a fully functional implementation of the required functionality, leveraging Reactive Smart Contracts to enhance the wallet's capabilities.
+I am submitting my application for the Reactive Smart Contract bounty, implementing the Automated Funds Distribution use case. My submission includes a fully functional implementation of the required functionality, leveraging Reactive Smart Contracts to enhance the wallet's capabilities.
 
 ## Contact Information
 
@@ -12,7 +12,7 @@ I am submitting my application for the Reactive Smart Contract bounty, implement
 
 ## Bounty
 
-Multi-Party Wallet Implementation using Reactive Smart Contracts
+Automated Funds Distribution — 400
 
 ## Submission Overview
 
@@ -20,7 +20,7 @@ My submission consists of:
 
 1. A MultiPartyWallet contract deployed on Sepolia
 2. A MemeCoin ERC20 contract deployed on Sepolia
-3. A MultiPartyWalletReactive contract deployed on the Reactive Network
+3. A MultiPartyWalletReactive contract deployed on the Reactive Network(KOPLI)
 4. Comprehensive workflow documentation
 5. All necessary deploy scripts and instructions
 

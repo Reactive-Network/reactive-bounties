@@ -1,15 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "lib/openzeppelin-contracts/contracts/access/Ownable.sol";
-import "lib/openzeppelin-contracts/contracts/utils/ReentrancyGuard.sol";
-import "openzeppelin-contracts/contracts-upgradeable/security/PausableUpgradeable.sol";
-import "openzeppelin-contracts/contracts-upgradeable/utils/math/SafeMathUpgradeable.sol";
+import "lib/openzeppelin-contracts-upgradeable/contracts/access/OwnableUpgradeable.sol";
+import "lib/openzeppelin-contracts-upgradeable/contracts/utils/ReentrancyGuardUpgradeable.sol";
+import "lib/openzeppelin-contracts-upgradeable/contracts/utils/PausableUpgradeable.sol";
 import "lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
 
 contract MultiPartyWallet is OwnableUpgradeable, ReentrancyGuardUpgradeable, PausableUpgradeable {
-    using SafeMathUpgradeable for uint256;
-
     uint256 public creationTime;
     uint256 public totalContributions;
     bool public walletClosed;
@@ -26,6 +23,7 @@ contract MultiPartyWallet is OwnableUpgradeable, ReentrancyGuardUpgradeable, Pau
     address[] public shareholderAddresses;
     mapping(address => uint256) private shareholderIndex;
     bool[] public shareholderActive;
+    
 
     IERC20 public memeCoin;
     uint256 public memeCoinsPerEth;
@@ -67,7 +65,7 @@ contract MultiPartyWallet is OwnableUpgradeable, ReentrancyGuardUpgradeable, Pau
         closureTime = _closureTime;
         memeCoin = IERC20(_memeCoinAddress);
         memeCoinsPerEth = _memeCoinsPerEth;
-        shareholderActive = new bool[](0);
+        shareholderActive = new bool[](0) ;
     }
 
     function setMemeCoin(address _memeCoinAddress, uint256 _memeCoinsPerEth) external onlyOwner {
@@ -78,7 +76,7 @@ contract MultiPartyWallet is OwnableUpgradeable, ReentrancyGuardUpgradeable, Pau
     fallback() external payable {
         emit FallbackCalled(msg.sender, msg.value);
         if (walletClosed) {
-            additionalFunds = additionalFunds.add(msg.value);
+            additionalFunds += msg.value;
             emit FundsReceived(msg.sender, msg.value);
         } else {
             contribute();
@@ -106,52 +104,50 @@ contract MultiPartyWallet is OwnableUpgradeable, ReentrancyGuardUpgradeable, Pau
             shareholderActive.push(true);
         }
 
-        shareholders[msg.sender].contribution = shareholders[msg.sender].contribution.add(msg.value);
-        totalContributions = totalContributions.add(msg.value);
+        shareholders[msg.sender].contribution += msg.value;
+        totalContributions += msg.value;
 
         emit ContributionReceived(msg.sender, msg.value);
     }
 
     function closeWallet() external onlyOpen {
-    require(block.timestamp >= closureTime, "Cannot close wallet yet");
-    walletClosed = true;
+        require(block.timestamp >= closureTime, "Cannot close wallet yet");
+        walletClosed = true;
 
-    // Distribute 1000 meme coins as a reward to the caller
-    uint256 rewardAmount = 1000 * 10**18; // Assuming 18 decimals for the meme coin
-    require(memeCoin.transfer(msg.sender, rewardAmount), "Reward transfer failed");
+        // Distribute 1000 meme coins as a reward to the caller
+        uint256 rewardAmount = 1000 * 10**18; // Assuming 18 decimals for the meme coin
+        require(memeCoin.transfer(msg.sender, rewardAmount), "Reward transfer failed");
 
-    emit WalletClosed();
-    emit MemeCoinsDistributed(msg.sender, rewardAmount);
-    //0xfa2763f7373a68fe3e9319f043584ac47e91ba6a95bef184a5a5ed00d198bba9
+        emit WalletClosed();
+        emit MemeCoinsDistributed(msg.sender, rewardAmount);
     }
 
-    function updateShares() external onlyClosed {
+    function updateShares(address) external onlyClosed {
         for (uint256 i = 0; i < shareholderAddresses.length; i++) {
             if (shareholderActive[i]) {
                 address shareholderAddress = shareholderAddresses[i];
-                shareholders[shareholderAddress].share = shareholders[shareholderAddress].contribution.mul(1e18).div(totalContributions);
+                shareholders[shareholderAddress].share = (shareholders[shareholderAddress].contribution * 1e18) / totalContributions;
                 emit ShareCalculated(shareholderAddress, shareholders[shareholderAddress].share);
             }
         }
         emit SharesUpdated();
-       // 0xc37a0c4c33ee983b1c1646116557ef4b86dcd6e2fec2c7938be43137a744d2f9
     }
 
-    function distributeAllFunds() external onlyClosed nonReentrant {
+    function distributeAllFunds(address) external onlyClosed nonReentrant {
         uint256 fundsToDistribute = additionalFunds;
         require(fundsToDistribute > 0, "No funds to distribute");
 
         for (uint256 i = 0; i < shareholderAddresses.length; i++) {
             if (shareholderActive[i]) {
                 address shareholderAddress = shareholderAddresses[i];
-                uint256 shareAmount = fundsToDistribute.mul(shareholders[shareholderAddress].share).div(1e18);
+                uint256 shareAmount = (fundsToDistribute * shareholders[shareholderAddress].share) / 1e18;
 
                 if (shareAmount > 0) {
                     (bool success, ) = payable(shareholderAddress).call{value: shareAmount}("");
                     require(success, "Transfer failed");
 
                     if (address(memeCoin) != address(0) && memeCoinsPerEth > 0) {
-                        uint256 memeCoinsAmount = shareAmount.mul(memeCoinsPerEth).div(1e18);
+                        uint256 memeCoinsAmount = (shareAmount * memeCoinsPerEth) / 1e18;
                         require(memeCoin.transfer(shareholderAddress, memeCoinsAmount), "MemeCoin transfer failed");
                         emit MemeCoinsDistributed(shareholderAddress, memeCoinsAmount);
                     }
@@ -161,7 +157,6 @@ contract MultiPartyWallet is OwnableUpgradeable, ReentrancyGuardUpgradeable, Pau
 
         additionalFunds = 0;
         emit FundsDistributedDirectly(fundsToDistribute);
-        //0x667db984c13b718d62ef9e0788b2b1bf17a4b86d58d610d5299ebe3612249474
     }
 
     function leaveShareholding() external onlyClosed nonReentrant {
@@ -170,14 +165,14 @@ contract MultiPartyWallet is OwnableUpgradeable, ReentrancyGuardUpgradeable, Pau
         require(shareholderActive[shareholderIndex[msg.sender]], "Shareholder already left");
 
         uint256 shareAmount = shareholder.contribution;
-        uint256 feeAmount = shareAmount.mul(5).div(100); // 5% fee
-        uint256 withdrawAmount = shareAmount.sub(feeAmount);
+        uint256 feeAmount = (shareAmount * 5) / 100; // 5% fee
+        uint256 withdrawAmount = shareAmount - feeAmount;
 
         // Mark shareholder as inactive
         shareholderActive[shareholderIndex[msg.sender]] = false;
 
         // Update total contributions
-        totalContributions = totalContributions.sub(shareholder.contribution);
+        totalContributions -= shareholder.contribution;
 
         // Reset shareholder's data
         shareholder.contribution = 0;
@@ -188,7 +183,6 @@ contract MultiPartyWallet is OwnableUpgradeable, ReentrancyGuardUpgradeable, Pau
         require(success, "Transfer failed");
 
         emit ShareholderLeft(msg.sender, withdrawAmount, feeAmount);
-        //0x5d6712e456ca571022e39ac7fef2dc1faf6c7d5f308ad90462f775c670896e1c
     }
 
     function pause() external onlyOwner {
@@ -200,8 +194,7 @@ contract MultiPartyWallet is OwnableUpgradeable, ReentrancyGuardUpgradeable, Pau
     }
 
     receive() external payable onlyClosed {
-        additionalFunds = additionalFunds.add(msg.value);
+        additionalFunds += msg.value;
         emit FundsReceived(msg.sender, msg.value);
-        //0x8e47b87b0ef542cdfa1659c551d88bad38aa7f452d2bbb349ab7530dfec8be8f
     }
 }
