@@ -15,10 +15,12 @@ contract PredictionMarket {
     // Constants for predictions
     string constant UP = "UP";
     string constant DOWN = "DOWN";
+    string constant DRAW = "DRAW";
 
     // Arrays to store deposits for each prediction
     Deposit[] public upDeposits;
     Deposit[] public downDeposits;
+    Deposit[] public allDeposits;
 
     // Reentrancy guard
     bool private locked;
@@ -28,6 +30,9 @@ contract PredictionMarket {
 
     // Event to log each successful payout
     event PayoutSuccessful(address indexed winner, uint256 amount);
+
+    // Event to log Refund
+    event RefundProcessed(address indexed recipient, uint256 amount);
 
     // Modifier to restrict access to the Reactive Network Sepolia Address or the deploying address
     modifier onlyAuthorized() {
@@ -53,6 +58,8 @@ contract PredictionMarket {
             downDeposits.push(Deposit(msg.sender, msg.value, prediction));
         }
 
+        allDeposits.push(Deposit(msg.sender, msg.value, prediction));
+
         // Emit the DepositReceived event
         emit DepositReceived(msg.sender, msg.value, prediction);
     }
@@ -63,9 +70,9 @@ contract PredictionMarket {
     }
 
     // Function to payout winners based on the prediction result
-    function payoutPrediction(string memory winningPrediction) public onlyAuthorized() {
+    function payoutPrediction(address /* RVM ID */, string memory winningPrediction) public onlyAuthorized() {
         // Validate winning prediction
-        require(compareStrings(winningPrediction, UP) || compareStrings(winningPrediction, DOWN), "Allowed predictions: UP, DOWN");
+        require(compareStrings(winningPrediction, UP) || compareStrings(winningPrediction, DOWN) || compareStrings(winningPrediction, DRAW), "Allowed predictions: UP, DOWN, DRAW");
 
         // Prevent reentrancy
         require(!locked, "Reentrancy detected");
@@ -73,15 +80,14 @@ contract PredictionMarket {
 
         // Define storage arrays based on the winning prediction
         Deposit[] storage winningDeposits;
-        Deposit[] storage losingDeposits;
 
         // Determine which array to use based on the winning prediction
         if (compareStrings(winningPrediction, UP)) {
             winningDeposits = upDeposits;
-            losingDeposits = downDeposits;
         } else if (compareStrings(winningPrediction, DOWN)) {
             winningDeposits = downDeposits;
-            losingDeposits = upDeposits;
+        } else if (compareStrings(winningPrediction, DRAW)) {
+            winningDeposits = allDeposits;
         } else {
             // This should not be possible due to the require statement at the beginning
             revert("Invalid prediction");
@@ -101,18 +107,16 @@ contract PredictionMarket {
             }
         } else {
             // Send all deposits back if nobody win
-            for (uint256 i = 0; i < upDeposits.length; i++) {
-                payable(upDeposits[i].sender).transfer(upDeposits[i].amount);
-            }
-
-            for (uint256 i = 0; i < downDeposits.length; i++) {
-                payable(downDeposits[i].sender).transfer(downDeposits[i].amount);
+            for (uint256 i = 0; i < allDeposits.length; i++) {
+                payable(allDeposits[i].sender).transfer(allDeposits[i].amount);
+                emit RefundProcessed(allDeposits[i].sender, allDeposits[i].amount);
             }
         }
 
         // Clear the deposits after payout or refund
         delete upDeposits;
         delete downDeposits;
+        delete allDeposits;
 
         // Release the lock
         locked = false;
