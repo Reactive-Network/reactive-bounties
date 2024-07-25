@@ -96,12 +96,17 @@ contract ReactivePayout is IReactive {
         if (receivedTimestamp > storedTimestamp) {
             if (receivedPrice > storedPrice) {
                 winnerPrediction = "UP";
-            } else {
+                storedPrice = receivedPrice;
+            } else if (receivedPrice < storedPrice) {
                 winnerPrediction = "DOWN";
+                storedPrice = receivedPrice;
+            } else {
+                winnerPrediction = "DRAW";
+                storedPrice = receivedPrice;
             }
-            bytes memory payload = abi.encodeWithSignature("payout(address,address,uint256)", address(0), winnerPrediction);
+            bytes memory payload = abi.encodeWithSignature("payoutPrediction(address,string)", address(0), winnerPrediction);
             emit Callback(chain_id, _callback, GAS_LIMIT, payload); // Emit callback to the PredictionMarket
-        }
+        } 
     }
 
 
