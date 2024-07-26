@@ -1,0 +1,145 @@
+.home {
+  margin-top: 25px;
+  min-height: 100vh;
+  display: flex;
+  width: 100%;
+  /* align-items: center; */
+  justify-content: space-around;
+}
+
+.home_container_right img {
+  height: 600px;
+}
+.home_container_left {
+  width: 40%;
+}
+.home_container_left h1 {
+  font-size: 75px;
+}
+.home_container_left p {
+  font-size: 19px;
+}
+
+.home_container_button {
+  margin-top: 50px;
+}
+
+.home_container_button {
+  display: flex;
+  align-items: center;
+  /* justify-conten; */
+}
+
+
+.button_claim {
+  margin-left: 30px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.8em 1.3em;
+  background-size: contain;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  /* background-image: linear-gradient(
+    75deg,
+    hsl(261deg 77% 46%) 0%,
+    hsl(264deg 73% 48%) 15%,
+    hsl(266deg 68% 49%) 29%,
+    hsl(269deg 66% 51%) 41%,
+    hsl(271deg 66% 52%) 51%,
+    hsl(273deg 66% 54%) 61%,
+    hsl(275deg 65% 55%) 69%,
+    hsl(277deg 65% 57%) 76%,
+    hsl(279deg 65% 58%) 84%,
+    hsl(281deg 65% 60%) 91%,
+    hsl(283deg 65% 61%) 100%
+  ); */
+  font-size: 1.15em;
+  font-weight: 700;
+  /* border: none; */
+  outline: none;
+  font-family: inherit;
+  /* background-color: #1a1a1a; */
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+.button_claim:hover {
+  /* border-color: #646cff; */
+  transition: scale 0.25s;
+  scale: 1.08;
+}
+
+.button_github {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.8em 1.5em;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(
+    75deg,
+    hsl(261deg 77% 46%) 0%,
+    hsl(264deg 73% 48%) 15%,
+    hsl(266deg 68% 49%) 29%,
+    hsl(269deg 66% 51%) 41%,
+    hsl(271deg 66% 52%) 51%,
+    hsl(273deg 66% 54%) 61%,
+    hsl(275deg 65% 55%) 69%,
+    hsl(277deg 65% 57%) 76%,
+    hsl(279deg 65% 58%) 84%,
+    hsl(281deg 65% 60%) 91%,
+    hsl(283deg 65% 61%) 100%
+  );
+  font-size: 1.15em;
+  font-weight: 700;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  /* background-color: #1a1a1a; */
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+.button_github:hover {
+  border-color: #646cff;
+  transition: scale 0.25s;
+  scale: 1.08;
+}
+.button_github:focus,
+.button_github:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.button_claim span {
+  background: linear-gradient(
+    75deg,
+    hsl(261deg 77% 46%) 0%,
+    hsl(264deg 73% 48%) 15%,
+    hsl(266deg 68% 49%) 29%,
+    hsl(269deg 66% 51%) 41%,
+    hsl(271deg 66% 52%) 51%,
+    hsl(273deg 66% 54%) 61%,
+    hsl(275deg 65% 55%) 69%,
+    hsl(277deg 65% 57%) 76%,
+    hsl(279deg 65% 58%) 84%,
+    hsl(281deg 65% 60%) 91%,
+    hsl(283deg 65% 61%) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text; /* For Safari */
+  color: transparent;
+}
+
+.star_img {
+  height: 95px;
+  position: absolute;
+  top: 17%;
+  left: 35%;
+  z-index: -1;
+}
+
+.star_img2 {
+  height: 70px;
+  position: absolute;
+  top: 80%;
+  left: 43%;
+  z-index: -1;
+}
