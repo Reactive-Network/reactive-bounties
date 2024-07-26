@@ -19,6 +19,7 @@ contract ReactiveOffChainPriceHandler is IReactive {
 
     uint256 private constant REACTIVE_IGNORE = 0xa65f96fc951c35ead38878e0f0b7a3c744a6f5ccc1476b313353ce31712313ad;
     uint64 private constant GAS_LIMIT = 1000000;
+    uint256 private constant SEPOLIA_CHAIN_ID = 11155111;
 
     /**
      * Indicates whether this is a ReactVM instance of the contract.
@@ -71,7 +72,7 @@ contract ReactiveOffChainPriceHandler is IReactive {
         uint256 /* block_number */,
         uint256 /* op_code */
     ) external vmOnly {
-        emit Event(chain_id, _contract, topic_0, topic_1, topic_2, topic_3, data, ++counter);
+        emit Event(SEPOLIA_CHAIN_ID, _contract, topic_0, topic_1, topic_2, topic_3, data, ++counter);
 
         (bytes32 requestId, uint256 price, string memory coin) = abi.decode(data, (bytes32,uint256,string));
 

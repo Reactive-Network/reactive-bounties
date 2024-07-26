@@ -19,6 +19,7 @@ contract ReactivePriceFeeder is IReactive {
 
     uint256 private constant REACTIVE_IGNORE = 0xa65f96fc951c35ead38878e0f0b7a3c744a6f5ccc1476b313353ce31712313ad;
     uint64 private constant GAS_LIMIT = 1000000;
+    uint256 private constant SEPOLIA_CHAIN_ID = 11155111;
 
     /**
      * Indicates whether this is a ReactVM instance of the contract.
@@ -76,7 +77,7 @@ contract ReactivePriceFeeder is IReactive {
         (address pair, uint256 price) = abi.decode(data, (address, uint256));
 
         // Encode the payload for feedPriceRSC function
-        bytes memory payload = abi.encodeWithSignature("feedPriceRSC(uint256,address,uint256)", chain_id, pair, price);
+        bytes memory payload = abi.encodeWithSignature("feedPriceRSC(uint256,address,uint256)", SEPOLIA_CHAIN_ID, pair, price);
         emit Callback(chain_id, _priceFeederCallback, GAS_LIMIT, payload);
     }
 
