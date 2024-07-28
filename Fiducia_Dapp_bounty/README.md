@@ -1,7 +1,7 @@
 # Fiducia: Revolutionizing Decentralized Finance
 
 ### Frontend Video : 
-- 
+- https://youtu.be/xlrv_E41LFM
 
 ### Deployed Link : 
 - https://fiducia-web.vercel.app/Home
